@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Tree from "../components/tree.js";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import WeatherBar from "../components/WeatherBar.js";
 
 function Daily() {
   const APIKEY = "10428b1c951b8f8f17e6acde5957b88f";
@@ -98,6 +99,7 @@ function Daily() {
         <Tree color={treeColor} />
         <button>Share</button>
       </div>
+      <WeatherBar color={setTreeColor}/>
     </Art>
   );
 }
