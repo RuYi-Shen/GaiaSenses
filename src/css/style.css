@@ -1,0 +1,26 @@
+/******************************** Global Configuration ********************************/
+
+* {
+    box-sizing: border-box;
+    word-break: break-word;
+
+    --white-base: #FFFFFF;
+    --black-base: #000000;
+    --purple-base: #8C11BE;
+    --green-base: #b7d5ac;
+    --grey-base: #e0e0e0;
+    --purple-button: #A328D6;
+    --green-olive: #6b8e23;
+    --red-negative: #C70000;
+}
+
+body {
+    background-color: var(--green-base);
+    font-family: 'Raleway', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+}
+
+button:hover {
+    cursor: pointer;
+}
