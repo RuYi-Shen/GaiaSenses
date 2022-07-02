@@ -1,15 +1,68 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useState } from "react";
 
 function Navbar() {
   const navigate = useNavigate();
+  const [page, setPage] = useState("home");
   return (
     <Nav>
-      <div onClick={() => navigate("/")}>
-        <ion-icon name="home"></ion-icon>
+      <div
+        onClick={() => {
+          setPage("home");
+          navigate("/");
+        }}
+      >
+        {page === "home" ? (
+          <ion-icon name="home"></ion-icon>
+        ) : (
+          <ion-icon name="home-outline"></ion-icon>
+        )}
       </div>
-      <div onClick={() => navigate("/daily")}>
-        <ion-icon name="person"></ion-icon>
+      <div
+        onClick={() => {
+          setPage("search");
+        }}
+      >
+        {page === "search" ? (
+          <ion-icon name="search"></ion-icon>
+        ) : (
+          <ion-icon name="search-outline"></ion-icon>
+        )}
+      </div>
+      <div
+        onClick={() => {
+          setPage("add");
+        }}
+      >
+        {page === "add" ? (
+          <ion-icon name="add-circle"></ion-icon>
+        ) : (
+          <ion-icon name="add-circle-outline"></ion-icon>
+        )}
+      </div>
+      <div
+        onClick={() => {
+          setPage("favorite");
+        }}
+      >
+        {page === "favorite" ? (
+          <ion-icon name="heart"></ion-icon>
+        ) : (
+          <ion-icon name="heart-outline"></ion-icon>
+        )}
+      </div>
+      <div
+        onClick={() => {
+          setPage("profile");
+          navigate("/daily");
+        }}
+      >
+        {page === "profile" ? (
+          <ion-icon name="person"></ion-icon>
+        ) : (
+          <ion-icon name="person-outline"></ion-icon>
+        )}
       </div>
     </Nav>
   );
