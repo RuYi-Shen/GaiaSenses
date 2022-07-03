@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Tree from "../components/tree.js";
+import Tree from "../components/Tree.js";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import WeatherBar from "../components/WeatherBar.js";
@@ -22,10 +22,10 @@ function Daily() {
     "scattered clouds": "#FFFFFF",
     "broken clouds": "#545454",
     "shower rain": "#BFE6FF",
-    "rain": "#009DFF",
-    "thunderstorm": "#663A82",
-    "snow": "#E0FFFF",
-    "mist": "#B3AFAF",
+    rain: "#009DFF",
+    thunderstorm: "#663A82",
+    snow: "#E0FFFF",
+    mist: "#B3AFAF",
   };
 
   let searchLocation;
@@ -74,32 +74,40 @@ function Daily() {
   }, []);
 
   useEffect(() => {
-    if(longitude != 0 && latitude != 0) getLocationWeather();
+    if (longitude != 0 && latitude != 0) getLocationWeather();
   }, [latitude, longitude]);
 
   return (
     <Art>
       <h2>Your Daily Art</h2>
-      {weather.weather ? (
-        <div>
-          <img src={`${ICONURL}${weather.weather[0].icon}@4x.png`}></img>
-          <p>{weather.weather[0].description.toUpperCase()}</p>
-          <p>{weather.name}</p>
-          <p>Temperatura</p>
-          <p>{(weather.main.temp - KELVINCELSIUS).toFixed(2)} ºC</p>
-          <p>Pressão</p>
-          <p>{weather.main.pressure} hPa</p>
-          <p>Humidade</p>
-          <p>{weather.main.humidity} %</p>
-        </div>
-      ) : (
-        <p>Carregando...</p>
-      )}
-      <div>
-        <Tree color={treeColor} />
-        <button>Share</button>
+      <Tree color={treeColor} />
+      <div className="share">
+        <ion-icon name="share-social"></ion-icon>
       </div>
-      <WeatherBar color={setTreeColor}/>
+      <Weather>
+        {weather.weather ? (
+          <>
+            <img src={`${ICONURL}${weather.weather[0].icon}@4x.png`}></img>
+            <p>{weather.weather[0].description.toUpperCase()}</p>
+            <p>{weather.name}</p>
+            <div className="info">
+              <p>Temperature:</p>
+              <p>{(weather.main.temp - KELVINCELSIUS).toFixed(2)} ºC</p>
+            </div>
+            <div className="info">
+              <p>Pressure:</p>
+              <p>{weather.main.pressure} hPa</p>
+            </div>
+            <div className="info">
+              <p>Humidity:</p>
+              <p>{weather.main.humidity} %</p>
+            </div>
+          </>
+        ) : (
+          <p>Carregando...</p>
+        )}
+      </Weather>
+      <WeatherBar color={setTreeColor} />
     </Art>
   );
 }
@@ -107,24 +115,27 @@ function Daily() {
 export default Daily;
 
 const Art = styled.div`
+  position: relative;
   width: 100vw;
   height: 100vh;
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
+  justify-content: center;
 
   h2 {
     position: absolute;
-    top: 10%;
+    top: 3%;
     left: 0;
     width: 100vw;
     text-align: center;
     color: var(--green-olive);
     font-size: 30px;
-    margin-bottom: 100px;
   }
 
+  .share {
+    :hover {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+  }
   ion-icon {
     position: absolute;
     top: 0;
@@ -134,27 +145,21 @@ const Art = styled.div`
     font-size: 30px;
     cursor: pointer;
   }
+`;
 
-  div {
+const Weather = styled.div`
+  position: absolute;
+  top: 0;
+  right: 2%;
+  color: var(--white-base);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  div{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  button {
-    width: 200px;
-    background-color: var(--white-base);
-    color: var(--green-olive);
-    font-size: 30px;
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 50px;
-    cursor: pointer;
-    :hover {
-      background-color: var(--green-olive);
-      color: var(--white-base);
-    }
+    justify-content: space-between;
+    margin: 5px;
   }
 `;

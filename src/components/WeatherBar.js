@@ -54,7 +54,7 @@ const Nav = styled.nav`
   justify-content: space-around;
   align-items: center;
   width: 100vw;
-  height: 60px;
+  height: 50px;
 
   position: fixed;
   bottom: 50px;
@@ -62,7 +62,7 @@ const Nav = styled.nav`
   z-index: 10;
 
   div {
-    height: 60px;
+    height: 50px;
     width: 100%;
     color: var(--black-base);
     display: flex;
@@ -74,8 +74,9 @@ const Nav = styled.nav`
       background-color: rgba(0, 0, 0, 0.2);
     }
 
-    ion-icon {
-      font-size: 30px;
+    img {
+      width: 40%;
+      height: auto;
     }
   }
 `;
