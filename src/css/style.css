@@ -6,16 +6,15 @@
 
     --white-base: #FFFFFF;
     --black-base: #000000;
-    --purple-base: #8C11BE;
-    --green-base: #b7d5ac;
-    --grey-base: #e0e0e0;
-    --purple-button: #A328D6;
-    --green-olive: #6b8e23;
-    --red-negative: #C70000;
+    --blue-base: #14073A;
+    --blue-button: #478EA5;
+    --blue-light: #f1f4f6;
 }
 
 body {
-    background-color: var(--green-base);
+    background-color: var(--blue-base);
+/*     background-image: linear-gradient(to bottom right, var(--blue-base), var(--white-base)); 
+    background-image:  url(https://i.imgur.com/EbMZ1ET.jpg);*/
     font-family: 'Raleway', sans-serif;
     font-style: normal;
     font-weight: 400;

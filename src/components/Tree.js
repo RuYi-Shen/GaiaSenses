@@ -2,22 +2,22 @@ import React, { Component } from "react";
 import Sketch from "react-p5";
 
 export default class Tree extends Component {
-  x = -500;
+  x = -this.props.width/2 || -500;
   y = 50;
   theta = 0;
   dir = true;
-  width = window.screen.availWidth;
-  height = window.screen.availHeight-100;
+  width = this.props.width || window.screen.availWidth;
+  height = this.props.height || window.screen.availHeight - 150;
 
   setup = (p5, parent) => {
     p5.createCanvas(this.width, this.height).parent(parent);
   };
   draw = (p5) => {
     p5.background(0);
-    p5.frameRate(30);
+    p5.frameRate(20);
 
-    p5.stroke(p5.color(this.props.color));
-    p5.strokeWeight(this.width / 150);
+    p5.stroke(p5.color(this.props.color || "#FFFFFF"));
+    p5.strokeWeight(this.width / 70);
     // Let's pick an angle 0 to 90 degrees based on the mouse position
     let a = (p5.mouseX / this.width) * 90;
     // Convert it to radians
@@ -25,20 +25,21 @@ export default class Tree extends Component {
     // Start the tree from the bottom of the screen
     p5.translate(this.width / 2, this.height);
     // Draw a line 120 pixels
-    p5.line(0, 0, 0, -this.width / 7);
+    p5.line(0, 0, 0, -this.width / 3);
     // Move to the end of that line
-    p5.translate(0, -this.width / 7);
+    p5.translate(0, -this.width / 3);
     // Start the recursive branching!
-    this.branch(p5, this.width / 7);
+    this.branch(p5, this.width / 4);
+    p5.fill(p5.color(this.props.color || "#FFFFFF"));
     p5.ellipse(this.x, this.y, 20, 20);
     if (this.dir) {
       this.x += 10;
     } else {
       this.x -= 10;
     }
-    if (this.x > 500) {
+    if (this.x > this.width/2) {
       this.dir = false;
-    } else if (this.x < -500) {
+    } else if (this.x < -this.width/2) {
       this.dir = true;
     }
   };

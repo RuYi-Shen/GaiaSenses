@@ -1,19 +1,24 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Navbar() {
   const navigate = useNavigate();
   const [page, setPage] = useState("home");
+
+  useEffect(() => {
+    setPage(window.location.pathname);
+  }, []);
+
   return (
     <Nav>
       <div
         onClick={() => {
-          setPage("home");
-          navigate("/");
+          setPage("/feed");
+          navigate("/feed");
         }}
       >
-        {page === "home" ? (
+        {page === "/feed" ? (
           <ion-icon name="home"></ion-icon>
         ) : (
           <ion-icon name="home-outline"></ion-icon>
@@ -54,11 +59,11 @@ function Navbar() {
       </div>
       <div
         onClick={() => {
-          setPage("profile");
+          setPage("/daily");
           navigate("/daily");
         }}
       >
-        {page === "profile" ? (
+        {page === "/daily" ? (
           <ion-icon name="person"></ion-icon>
         ) : (
           <ion-icon name="person-outline"></ion-icon>

@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import Navbar from "../components/Navbar";
+import ConfigBar from "../components/ConfigBar";
 
 function Feed() {
   let links = [
@@ -27,9 +29,11 @@ function Feed() {
   ];
   return (
     <Main>
+      <ConfigBar />
       {links.map((link, index) => {
         return <img src={link} key={index} alt=""></img>;
       })}
+      <Navbar />
     </Main>
   );
 }
@@ -38,7 +42,7 @@ export default Feed;
 
 const Main = styled.main`
   width: 100%;
-  padding-bottom: 50px;
+  padding: 50px 0;
   line-height: 0;
   -webkit-column-count: 5;
   -webkit-column-gap: 0px;

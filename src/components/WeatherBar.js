@@ -3,14 +3,14 @@ import styled from "styled-components";
 function WeatherBar(props) {
   const ICONURL = "http://openweathermap.org/img/wn/";
   const weatherColor = {
-    "clear sky": "#0000FF",
-    "few clouds": "#A9A9A9",
-    "scattered clouds": "#FFFFFF",
-    "broken clouds": "#545454",
-    "shower rain": "#BFE6FF",
-    rain: "#009DFF",
-    thunderstorm: "#663A82",
-    snow: "#E0FFFF",
+    "clear sky": "#FF0000",
+    "few clouds": "#FF7F00",
+    "scattered clouds": "#FFFF00",
+    "broken clouds": "#00FF00",
+    "shower rain": "#0000FF",
+    "rain": "#4B0082",
+    thunderstorm: "#9400D3",
+    snow: "#FFFFFF",
     mist: "#B3AFAF",
   };
   return (
