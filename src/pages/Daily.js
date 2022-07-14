@@ -58,7 +58,7 @@ function Daily() {
             "a visual object or experience consciously created through an
             expression of skill or imagination"
           </p>
-          <p>- Artemis Moroni</p>
+          <p>- Encyclopaedia Britannica</p>
         </div>
       </ArtNDesc>
       <div className="share">
