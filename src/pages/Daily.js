@@ -55,7 +55,7 @@ function Daily() {
         </div>
         <div className="description">
           <p>
-            "a visual object or experience consciously created through an
+            "A visual object or experience consciously created through an
             expression of skill or imagination"
           </p>
           <p>- Encyclopaedia Britannica</p>
