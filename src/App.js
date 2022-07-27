@@ -4,6 +4,7 @@ import Daily from "./pages/Daily";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
+import Add from "./pages/Add";
 
 import './css/reset.css';
 import './css/style.css';
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/feed" element={<Feed />} />
+          <Route path="/add" element={<Add />} />
           <Route path="/daily" element={<Daily />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

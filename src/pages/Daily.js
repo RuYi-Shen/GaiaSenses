@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import WeatherBar from "../components/WeatherBar.js";
 import Navbar from "../components/Navbar";
 import ConfigBar from "../components/ConfigBar.js";
+import ChaosTree from "../components/ChaosTree.js";
 
 function Daily() {
   const [weather, setWeather] = useState({});
@@ -49,6 +50,7 @@ function Daily() {
         <div>
           {width === height ? (
             <Tree color={treeColor} width={width} height={height} />
+            //<ChaosTree color={treeColor} width={width} height={height} />
           ) : (
             <></>
           )}

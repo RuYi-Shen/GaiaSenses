@@ -38,6 +38,7 @@ function Navbar() {
       <div
         onClick={() => {
           setPage("add");
+          navigate("/add");
         }}
       >
         {page === "add" ? (
