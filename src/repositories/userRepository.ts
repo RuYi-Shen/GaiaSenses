@@ -22,3 +22,14 @@ export async function create(userInfo: User) {
     data: userInfo,
   });
 }
+
+export async function activate(id: number) {
+  return await prisma.user.update({
+    where: {
+      id,
+    },
+    data: {
+      activated: true,
+    },
+  });
+}
