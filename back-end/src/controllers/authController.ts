@@ -10,10 +10,10 @@ async function createUser(req: Request, res: Response) {
 }
 
 async function createSession(req: Request, res: Response) {
-  const userId = res.locals.user.id;
+  const { user } = res.locals;
 
-  const token = authService.createSession(userId);
-  res.json(token);
+  const token = authService.createSession(user.id);
+  res.json({ ...user, token });
 }
 
 export const authController = {
