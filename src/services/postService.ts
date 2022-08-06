@@ -1,7 +1,60 @@
-import * as postRepository from "../repositories/postRepository.js";
+import { postRepository, PostContent } from "../repositories/postRepository.js";
+import { likeService } from "../services/likeService.js";
 
-import { Post } from "@prisma/client";
-
-export async function createPost(testInfo: Post) {
-  return await postRepository.create(testInfo);
+async function createPost(postInfo: PostContent) {
+  return await postRepository.create(postInfo);
 }
+
+async function getNewPosts() {
+  const posts = await postRepository.findAll();
+  return await Promise.all(
+    posts.map(async (post) => {
+      const { id: postId, userId } = post;
+      const likes = await likeService.getLikes({ postId, userId });
+      return { ...post, likes };
+    })
+  );
+}
+
+async function getBestPosts() {
+  const posts = await postRepository.findLastWeek();
+  posts.sort((a, b) => b._count.Like - a._count.Like);
+  return await Promise.all(
+    posts.slice(0, 10).map(async (post) => {
+      const { id: postId, userId } = post;
+      const likes = await likeService.getLikes({ postId, userId });
+      delete post._count;
+      return { ...post, likes };
+    })
+  );
+}
+
+async function getUserPosts(userId: number) {
+  const posts = await postRepository.findUser(userId);
+  return await Promise.all(
+    posts.map(async (post) => {
+      const { id: postId, userId } = post;
+      const likes = await likeService.getLikes({ postId, userId });
+      return { ...post, likes };
+    })
+  );
+}
+
+async function getLikedPosts(userId: number) {
+  const posts = await postRepository.findLiked(userId);
+  return await Promise.all(
+    posts.map(async (post) => {
+      const { id: postId, userId } = post.post;
+      const likes = await likeService.getLikes({ postId, userId });
+      return { ...post.post, likes };
+    })
+  );
+}
+
+export const postService = {
+  createPost,
+  getNewPosts,
+  getBestPosts,
+  getUserPosts,
+  getLikedPosts,
+};
