@@ -11,7 +11,7 @@ async function createUser(userInfo: User) {
 function createSession(userId: number) {
   const token = jwt.sign({ userId }, process.env.SECRET_KEY || "secret");
 
-  return { token };
+  return token;
 }
 
 export const authService = {
