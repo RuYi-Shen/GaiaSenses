@@ -11,13 +11,14 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  avatar   String @default("https://xsgames.co/randomusers/avatar.php?g=female")
-  name     String
-  email    String @unique
-  password String
-  Post     Post[]
-  Like     Like[]
+  id        Int     @id @default(autoincrement())
+  avatar    String  @default("https://xsgames.co/randomusers/avatar.php?g=female")
+  name      String
+  email     String  @unique
+  password  String
+  activated Boolean @default(false)
+  Post      Post[]
+  Like      Like[]
 
   @@map("users")
 }

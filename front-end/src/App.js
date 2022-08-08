@@ -5,13 +5,18 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 import Add from "./pages/Add";
+import UserContext from "./contexts/UserContext";
+import { useState } from "react";
 
-import './css/reset.css';
-import './css/style.css';
+import "./css/reset.css";
+import "./css/style.css";
 
 function App() {
+  const [userData, setUserData] = useState({});
+
   return (
-    <BrowserRouter>
+    <UserContext.Provider value={{ userData, setUserData }}>
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -21,6 +26,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+    </UserContext.Provider>
   );
 }
 

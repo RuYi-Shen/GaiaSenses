@@ -7,15 +7,14 @@ import Form from "../components/Form";
 import axios from "axios";
 
 import logo from "../assets/gs_logo.png";
-import { func } from "joi";
 
 export default function Login() {
-  const URL = "https://projeto14-driveneletro.herokuapp.com/signin";
+  const URL = "https://rys-gaiasenses.herokuapp.com/auth/signin";
 
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
   const [disabled, setDisabled] = useState(false);
-  //const { setUserData } = useContext(UserContext);
+  const { setUserData } = useContext(UserContext);
 
   const APIKEY = "10428b1c951b8f8f17e6acde5957b88f";
   const APIURL = "https://api.openweathermap.org/data/2.5/weather?";
@@ -45,30 +44,29 @@ export default function Login() {
   }
 
   useEffect(() => {
-    if (longitude != 0 && latitude != 0) getLocationWeather();
+    if (longitude !== 0 && latitude !== 0) getLocationWeather();
   }, [latitude, longitude]);
 
   useEffect(() => {
     if (localStorage.getItem("userData")) {
-      //setUserData(JSON.parse(localStorage.getItem('userData')));
+      setUserData(JSON.parse(localStorage.getItem("userData")));
       setDisabled(true);
       getUserLocation();
     }
     if (Object.keys(userInfo).length !== 0) {
       setDisabled(true);
-      /* axios.post(URL, userInfo)
-                .then((response) => {
-                    localStorage.setItem('userData', JSON.stringify(response.data));
-                    //setUserData(response.data);
-                    //navigate("/feed");
-                })
-                .catch(error => {
-                    console.log(error);
-                    alert(error.response.data);
-                    setDisabled(false);
-                }); */
-      localStorage.setItem("userData", JSON.stringify({ name: "Shen" }));
-      getUserLocation();
+      axios
+        .post(URL, userInfo)
+        .then((response) => {
+          localStorage.setItem("userData", JSON.stringify(response.data));
+          setUserData(response.data);
+          getUserLocation();
+        })
+        .catch((error) => {
+          console.log(error);
+          alert(error.response.data);
+          setDisabled(false);
+        });
     }
   }, [userInfo]);
 

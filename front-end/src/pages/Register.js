@@ -8,7 +8,7 @@ import axios from "axios";
 import logo from "../assets/gs_logo.png";
 
 export default function Register() {
-  const URL = "https://projeto14-driveneletro.herokuapp.com/signup";
+  const URL = "https://rys-gaiasenses.herokuapp.com/auth/signup";
 
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
@@ -18,20 +18,21 @@ export default function Register() {
     localStorage.clear();
     if (Object.keys(userInfo).length !== 0) {
       setDisabled(true);
-      /* axios.post(URL, userInfo)
-                .then((response) => {
-                    alert(response.data);
-                    navigate("/");
-                })
-                .catch(error => {
-                    console.log(error);
-                    alert(error.response.data);
-                    setDisabled(false);
-                }); */
-      localStorage.setItem("userData", JSON.stringify({ name: userInfo.name }));
+      axios
+        .post(URL, userInfo)
+        .then((response) => {
+          alert(response.data);
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log(error);
+          alert(error.response.data);
+          setDisabled(false);
+        });
+      /* localStorage.setItem("userData", JSON.stringify({ name: userInfo.name }));
       setTimeout(() => {
         navigate("/");
-      }, 2000);
+      }, 2000); */
     }
   }, [userInfo, navigate]);
 
