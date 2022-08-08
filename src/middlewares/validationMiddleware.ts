@@ -25,7 +25,7 @@ export async function validateToken(
   if (!token) {
     return res.sendStatus(401);
   }
-  const { id:userId }: any = jwt.verify(token, process.env.SECRET_KEY || "secret");
+  const { userId }: any = jwt.verify(token, process.env.SECRET_KEY);
   if (!userId) {
     return res.sendStatus(401);
   }
