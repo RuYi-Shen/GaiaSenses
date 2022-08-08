@@ -1,21 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import WeatherData from "./WeatherData";
 import axios from "axios";
 import ShareOptions from "./ShareOptions.js";
+import UserContext from "../contexts/UserContext";
 
 function ConfigBar() {
   const navigate = useNavigate();
   const [openConfig, setOpenConfig] = useState(false);
   const [openShare, setOpenShare] = useState(false);
-  const [weather, setWeather] = useState({});
-  const userData = JSON.parse(localStorage.getItem("userData"));
-  useEffect(() => {
-    if (localStorage.getItem("weather")) {
-      setWeather(JSON.parse(localStorage.getItem("weather")));
-    }
-  }, []);
+  const { userData, setUserData, weather, setWeather } =
+    useContext(UserContext);
 
   const APIKEY = "10428b1c951b8f8f17e6acde5957b88f";
   const APIURL = "https://api.openweathermap.org/data/2.5/weather?";
@@ -37,7 +33,6 @@ function ConfigBar() {
       .get(`${APIURL}lat=${latitude}&lon=${longitude}&appid=${APIKEY}`)
       .then((response) => {
         setWeather(response.data);
-        localStorage.setItem("weather", JSON.stringify(response.data));
         console.log(response.data);
       })
       .catch((err) => console.log(err));
@@ -94,16 +89,18 @@ function ConfigBar() {
           <ion-icon name="refresh"></ion-icon>
         </div>
 
-        <div className="logout"
+        <div
+          className="logout"
           onClick={() => {
             localStorage.clear();
+            setUserData({});
             navigate("/");
           }}
         >
           <ion-icon name="log-out-outline"></ion-icon>
         </div>
       </Config>
-      <ShareOptions open={openShare}/>
+      <ShareOptions open={openShare} />
     </>
   );
 }

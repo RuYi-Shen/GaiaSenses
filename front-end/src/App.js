@@ -13,9 +13,12 @@ import "./css/style.css";
 
 function App() {
   const [userData, setUserData] = useState({});
+  const [weather, setWeather] = useState({});
 
   return (
-    <UserContext.Provider value={{ userData, setUserData }}>
+    <UserContext.Provider
+      value={{ userData, setUserData, weather, setWeather }}
+    >
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />

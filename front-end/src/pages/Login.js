@@ -14,14 +14,13 @@ export default function Login() {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
   const [disabled, setDisabled] = useState(false);
-  const { setUserData } = useContext(UserContext);
+  const { userData, setUserData, weather, setWeather } = useContext(UserContext);
 
   const APIKEY = "10428b1c951b8f8f17e6acde5957b88f";
   const APIURL = "https://api.openweathermap.org/data/2.5/weather?";
 
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
-  const [weather, setWeather] = useState({});
 
   function getUserLocation() {
     if ("geolocation" in navigator) {
@@ -37,7 +36,6 @@ export default function Login() {
       .get(`${APIURL}lat=${latitude}&lon=${longitude}&appid=${APIKEY}`)
       .then((response) => {
         setWeather(response.data);
-        localStorage.setItem("weather", JSON.stringify(response.data));
         console.log(response.data);
       })
       .catch((err) => console.log(err));
@@ -71,7 +69,7 @@ export default function Login() {
   }, [userInfo]);
 
   useEffect(() => {
-    if (weather.weather && localStorage.getItem("weather")) {
+    if (weather.weather && userData.email) {
       navigate("/feed");
     }
   }, [weather]);

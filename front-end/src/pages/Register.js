@@ -29,10 +29,6 @@ export default function Register() {
           alert(error.response.data);
           setDisabled(false);
         });
-      /* localStorage.setItem("userData", JSON.stringify({ name: userInfo.name }));
-      setTimeout(() => {
-        navigate("/");
-      }, 2000); */
     }
   }, [userInfo, navigate]);
 
