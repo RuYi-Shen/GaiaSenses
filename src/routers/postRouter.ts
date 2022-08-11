@@ -1,5 +1,5 @@
 import { Router } from "express";
-
+import multer from "multer"; 
 import { createPostInfo } from "../schemas/postSchema.js";
 import {
   validateToken,
@@ -7,16 +7,21 @@ import {
 } from "../middlewares/validationMiddleware.js";
 import { postController } from "../controllers/postController.js";
 
+const upload = multer();
 const postRouter = Router();
 
 postRouter.use(validateToken);
 
+postRouter.post("/aws", upload.array('file'), (req, res) => {
+  const a = req.files;
+  const b = req.body;
+  console.log({a, b});
+  res.send("ok");
+});
+postRouter.post("/publish/:postId", postController.publishPost);
 postRouter.post("/", validateSchema(createPostInfo), postController.createPost);
 postRouter.get("/", postController.getPosts);
 postRouter.get("/new", postController.getNewPosts);
 postRouter.get("/user", postController.getUserPosts);
-postRouter.get("/liked", postController.getLikedPosts);
-postRouter.post("/like/:postId", postController.likePost);
-postRouter.delete("/like/:postId", postController.dislikePost);
 
 export default postRouter;

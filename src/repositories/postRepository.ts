@@ -9,6 +9,19 @@ async function create(postInfo: PostContent) {
   });
 }
 
+async function publish(postId: number) {
+  return await prisma.post.update({
+    where: { id: postId },
+    data: { published: true },
+  });
+}
+
+async function findById(id: number) {
+  return await prisma.post.findUnique({
+    where: { id },
+  });
+}
+
 async function findAll() {
   return await prisma.post.findMany({
     where: {
@@ -96,6 +109,8 @@ async function deleteById(id: number) {
 
 export const postRepository = {
   create,
+  publish,
+  findById,
   findAll,
   findLastWeek,
   findUser,
