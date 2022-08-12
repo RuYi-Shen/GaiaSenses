@@ -6,7 +6,6 @@ const likeRouter = Router();
 
 likeRouter.use(validateToken);
 
-likeRouter.get("/", likeController.getLikedPosts);
 likeRouter.post("/:postId", likeController.likePost);
 likeRouter.delete("/:postId", likeController.dislikePost);
 

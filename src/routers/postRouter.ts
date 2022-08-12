@@ -23,5 +23,6 @@ postRouter.post("/", validateSchema(createPostInfo), postController.createPost);
 postRouter.get("/", postController.getPosts);
 postRouter.get("/new", postController.getNewPosts);
 postRouter.get("/user", postController.getUserPosts);
+postRouter.get("/like", postController.getLikedPosts);
 
 export default postRouter;

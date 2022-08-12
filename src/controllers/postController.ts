@@ -34,10 +34,18 @@ async function getUserPosts(req: Request, res: Response) {
   res.json(posts);
 }
 
+async function getLikedPosts(req: Request, res: Response) {
+  const userId = res.locals.user.id;
+
+  const posts = await postService.getLikedPosts(userId);
+  res.json(posts);
+}
+
 export const postController = {
   createPost,
   publishPost,
   getPosts,
   getNewPosts,
   getUserPosts,
+  getLikedPosts,
 };
