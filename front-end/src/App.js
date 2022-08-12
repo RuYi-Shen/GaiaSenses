@@ -4,7 +4,11 @@ import Daily from "./pages/Daily";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
+import Discover from "./pages/Discover";
 import Add from "./pages/Add";
+import Create from "./pages/Create";
+import Favorite from "./pages/Favorite";
+import Profile from "./pages/Profile";
 import UserContext from "./contexts/UserContext";
 import { useState } from "react";
 
@@ -24,8 +28,11 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/feed" element={<Feed />} />
-          <Route path="/add" element={<Add />} />
-          <Route path="/daily" element={<Daily />} />
+          <Route path="/discover" element={<Discover />} />
+          <Route path="/favorite" element={<Favorite />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/daily" element={<Create />} />
+          <Route path="/add" element={<Daily />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

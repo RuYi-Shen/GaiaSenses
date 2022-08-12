@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import Tree from "../components/Tree.js";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import WeatherBar from "../components/WeatherBar.js";
 import Navbar from "../components/Navbar";
 import ConfigBar from "../components/ConfigBar.js";
 import ChaosTree from "../components/ChaosTree.js";
+import axios from "axios";
+import UserContext from "../contexts/UserContext";
 
 function Daily() {
   const [weather, setWeather] = useState({});
@@ -12,6 +14,9 @@ function Daily() {
   const [width, setWidth] = useState(window.screen.availWidth);
   const [height, setHeight] = useState(window.screen.availHeight - 100);
   const [mobile, setMobile] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  const { userData } = useContext(UserContext);
+  const URL = "http://localhost:5000/post/";
 
   useEffect(() => {
     if (localStorage.getItem("weather")) {
@@ -43,9 +48,31 @@ function Daily() {
     mist: "#B3AFAF",
   };
 
+  function saveCanvas(){
+    const canvas = document.getElementById("defaultCanvas0");
+    setImageUrl(canvas.toDataURL("image/jpeg", 0));
+  }
+
+  useEffect(() => {
+    if(imageUrl) console.log(imageUrl);
+    axios
+      .post(URL, {url:imageUrl, content:'test'}, {
+        headers: {
+          Authorization: "Bearer " + userData.token,
+        },
+      })
+      .then((res) => {
+        console.log("deu certo")
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [imageUrl]);
+
   return (
-    <Art>
+    <Art back={imageUrl ?imageUrl : "pink"}>
       <ConfigBar />
+      <button onClick={saveCanvas}>Save</button>
       <ArtNDesc mobile={mobile}>
         <div>
           {width === height ? (
@@ -103,6 +130,17 @@ const Art = styled.div`
       background-color: rgba(255, 255, 255, 0.9);
     }
   }
+
+  button {
+    position: fixed;
+    top: 50;
+    right: 0;
+    width: 400px;
+    height: 400px;
+    background-image: url(${(props) => props.back});
+    background-size: cover;
+  }
+
 `;
 
 const ArtNDesc = styled.div`

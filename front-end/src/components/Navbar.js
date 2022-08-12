@@ -26,10 +26,11 @@ function Navbar() {
       </div>
       <div
         onClick={() => {
-          setPage("search");
+          setPage("/discover");
+          navigate("/discover");
         }}
       >
-        {page === "search" ? (
+        {page === "/discover" ? (
           <ion-icon name="search"></ion-icon>
         ) : (
           <ion-icon name="search-outline"></ion-icon>
@@ -37,11 +38,11 @@ function Navbar() {
       </div>
       <div
         onClick={() => {
-          setPage("add");
+          setPage("/add");
           navigate("/add");
         }}
       >
-        {page === "add" ? (
+        {page === "/add" ? (
           <ion-icon name="add-circle"></ion-icon>
         ) : (
           <ion-icon name="add-circle-outline"></ion-icon>
@@ -49,10 +50,11 @@ function Navbar() {
       </div>
       <div
         onClick={() => {
-          setPage("favorite");
+          setPage("/favorite");
+          navigate("/favorite");
         }}
       >
-        {page === "favorite" ? (
+        {page === "/favorite" ? (
           <ion-icon name="heart"></ion-icon>
         ) : (
           <ion-icon name="heart-outline"></ion-icon>
@@ -60,11 +62,11 @@ function Navbar() {
       </div>
       <div
         onClick={() => {
-          setPage("/daily");
-          navigate("/daily");
+          setPage("/profile");
+          navigate("/profile");
         }}
       >
-        {page === "/daily" ? (
+        {page === "/profile" ? (
           <ion-icon name="person"></ion-icon>
         ) : (
           <ion-icon name="person-outline"></ion-icon>

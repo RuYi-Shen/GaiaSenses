@@ -47,7 +47,7 @@ export default function Login() {
 
   useEffect(() => {
     if (localStorage.getItem("userData")) {
-      setUserData(JSON.parse(localStorage.getItem("userData")));
+      setUserData(JSON.parse(localStorage.getItem("userData"))); 
       setDisabled(true);
       getUserLocation();
     }
@@ -69,7 +69,7 @@ export default function Login() {
   }, [userInfo]);
 
   useEffect(() => {
-    if (weather.weather && userData.email) {
+    if (weather.weather && userData.name) {
       navigate("/feed");
     }
   }, [weather]);
