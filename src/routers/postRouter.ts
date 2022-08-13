@@ -14,8 +14,7 @@ postRouter.use(validateToken);
 
 postRouter.post("/aws", upload.array('file'), (req, res) => {
   const a = req.files;
-  const b = req.body;
-  console.log({a, b});
+  console.log({a});
   res.send("ok");
 });
 postRouter.post("/publish/:postId", postController.publishPost);
