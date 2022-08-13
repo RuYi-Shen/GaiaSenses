@@ -5,8 +5,8 @@ import { useState, useEffect, useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
 
-export default function Like({ postId, published, likes, user }) {
-  const URL = "http://localhost:5000/like";
+export default function Like({ postId, likes, user }) {
+  const URL = "https://rys-gaiasenses.herokuapp.com/like";
   const { userData } = useContext(UserContext);
   const [infoText, setInfoText] = useState("no one has liked this post yet");
   const [likesInfo, setLikesInfo] = useState(likes);
@@ -20,7 +20,8 @@ export default function Like({ postId, published, likes, user }) {
     visible,
   } = usePopperTooltip();
 
-  function likePost() {
+  function handleLike(e) {
+    e.stopPropagation();
     if (!likesInfo.liked) {
       let aux = [...likesInfo.users];
       aux.push({name: user.name});
@@ -45,11 +46,11 @@ export default function Like({ postId, published, likes, user }) {
   }
 
   useEffect(() => {
-    if (likesInfo.count == 0) {
+    if (likesInfo.count === 0) {
       setInfoText("no one has liked this post yet");
-    } else if (likesInfo.count == 1) {
+    } else if (likesInfo.count === 1) {
       setInfoText(likesInfo.users[0]?.name + " liked this post");
-    } else if (likesInfo.count == 2) {
+    } else if (likesInfo.count === 2) {
       setInfoText(
         `${likesInfo.users[0]?.name} and ${likesInfo.users[1]?.name} liked this post`
       );
@@ -59,18 +60,18 @@ export default function Like({ postId, published, likes, user }) {
           likesInfo.count * 1 - 2
         } other people`
       );
-    }
+    }// eslint-disable-next-line
   }, [likesInfo.users]);
 
   return (
     <>
-      <Heart onClick={likePost} liked={likesInfo.liked} ref={setTriggerRef}>
+      <Heart onClick={(e) => handleLike(e)} liked={likesInfo.liked} ref={setTriggerRef}>
         {likesInfo.liked ? (
           <ion-icon name="heart"></ion-icon>
         ) : (
           <ion-icon name="heart-outline"></ion-icon>
         )}
-        <p>{likesInfo.likes} likes</p>
+        <p>{likesInfo.count} likes</p>
       </Heart>
       {visible && (
         <div
@@ -88,15 +89,16 @@ export default function Like({ postId, published, likes, user }) {
 const Heart = styled.div`
   width: 50px;
   height: 50px;
-  margin-left: 18px;
+
   position: absolute;
-  left: 0;
-  bottom: 140px;
+  top: 0;
+  right: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 20;
+  margin: 5px;
+  z-index: 15;
   p {
     margin-top: 5px;
     font-size: 11px;

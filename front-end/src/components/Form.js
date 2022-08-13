@@ -22,8 +22,9 @@ export default function Form({ type, setUserInfo, disabled }) {
     if (type === "register") {
       if (password === passwordConfirmation) {
         setUserInfo({ name, email, password });
+      } else {
+        alert("Passwords do not match");
       }
-      alert("Passwords do not match");
     } else {
       setUserInfo({ email, password });
     }

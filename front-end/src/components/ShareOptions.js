@@ -2,21 +2,25 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 
-function ShareOptions({open}) {
-
+function ShareOptions({ open }) {
   return (
     <Nav open={open}>
-      <div>
-      <ion-icon name="logo-instagram"></ion-icon>
+      <div onClick={() => window.alert('Coming soon, please try to share via whatsapp')}>
+        <ion-icon name="logo-instagram"></ion-icon>
       </div>
       <div>
-      <ion-icon name="logo-whatsapp"></ion-icon>
+        <a
+          href="whatsapp://send?text=Join the GaiaSenses community! access: https://gaia-senses.vercel.app/"
+          data-action="share/whatsapp/share"
+        >
+          <ion-icon name="logo-whatsapp"></ion-icon>
+        </a>
       </div>
-      <div>
-      <ion-icon name="logo-twitter"></ion-icon>
+      <div onClick={() => window.alert('Coming soon, please try to share via whatsapp')}>
+        <ion-icon name="logo-twitter"></ion-icon>
       </div>
-      <div>
-      <ion-icon name="mail-outline"></ion-icon>
+      <div onClick={() => window.alert('Coming soon, please try to share via whatsapp')}>
+        <ion-icon name="mail-outline"></ion-icon>
       </div>
     </Nav>
   );
@@ -54,7 +58,6 @@ const Nav = styled.nav`
 
     ion-icon {
       font-size: 30px;
-      
     }
   }
 `;

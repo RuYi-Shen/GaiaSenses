@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Tree from "../components/Tree.js";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import WeatherBar from "../components/WeatherBar.js";
 import Navbar from "../components/Navbar";
 import ConfigBar from "../components/ConfigBar.js";
@@ -15,8 +15,11 @@ function Daily() {
   const [height, setHeight] = useState(window.screen.availHeight - 100);
   const [mobile, setMobile] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
+  const [inputUrl, setInputUrl] = useState("");
+  const [composeUrl, setComposeUrl] = useState("");
   const { userData } = useContext(UserContext);
-  const URL = "http://localhost:5000/post/";
+  const [contentText, setContentText] = useState("");
+  const URL = "https://rys-gaiasenses.herokuapp.com/post/";
 
   useEffect(() => {
     if (localStorage.getItem("weather")) {
@@ -36,6 +39,16 @@ function Daily() {
     }
   }, [weather]);
 
+  const Test = useCallback(() => {
+    return (
+      <ChaosTree
+        width={width}
+        height={height}
+        imageUrl={imageUrl || "chaostree.jpg"}
+      />
+    );
+  }, [width, height, imageUrl]);
+
   const weatherColor = {
     "clear sky": "#FF0000",
     "few clouds": "#FF7F00",
@@ -48,51 +61,76 @@ function Daily() {
     mist: "#B3AFAF",
   };
 
-  function saveCanvas(){
+  function saveCanvas() {
     const canvas = document.getElementById("defaultCanvas0");
-    setImageUrl(canvas.toDataURL("image/jpeg", 0));
+    setComposeUrl(canvas.toDataURL("image/jpeg", 0));
   }
 
   useEffect(() => {
-    if(imageUrl) console.log(imageUrl);
-    axios
-      .post(URL, {url:imageUrl, content:'test'}, {
-        headers: {
-          Authorization: "Bearer " + userData.token,
-        },
-      })
-      .then((res) => {
-        console.log("deu certo")
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [imageUrl]);
+    if (composeUrl) {
+      axios
+        .post(
+          URL,
+          { url: composeUrl, content: contentText || " " },
+          {
+            headers: {
+              Authorization: "Bearer " + userData.token,
+            },
+          }
+        )
+        .then((res) => {
+          window.alert("Image successfully saved");
+          setInputUrl("");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [composeUrl]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setImageUrl(inputUrl);
+  }
 
   return (
-    <Art back={imageUrl ?imageUrl : "pink"}>
+    <Art back={composeUrl ? composeUrl : "pink"}>
       <ConfigBar />
-      <button onClick={saveCanvas}>Save</button>
       <ArtNDesc mobile={mobile}>
         <div>
           {width === height ? (
-            <Tree color={treeColor} width={width} height={height} />
-            //<ChaosTree color={treeColor} width={width} height={height} />
+            //<Tree color={treeColor} width={width} height={height} />
+            <Test />
           ) : (
             <></>
           )}
         </div>
-        <div className="description">
-          <p>
-            "A visual object or experience consciously created through an
-            expression of skill or imagination"
-          </p>
-          <p>- Encyclopaedia Britannica</p>
-        </div>
+        <Description>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="url"
+              id="imageUrl"
+              placeholder="Image Url"
+              required
+              value={inputUrl}
+              onChange={(e) => setInputUrl(e.target.value)}
+            />
+            <input type="submit"></input>
+          </form>
+          <Form>
+            <textarea
+              placeholder="What is in your mind?"
+              maxLength="150"
+              required
+              value={contentText}
+              onChange={(e) => {
+                setContentText(e.target.value);
+              }}
+            ></textarea>
+            <button onClick={saveCanvas}>Save</button>
+          </Form>
+        </Description>
       </ArtNDesc>
-      <div className="share">
-        <ion-icon name="share-social"></ion-icon>
-      </div>
       <WeatherBar color={setTreeColor} />
       <Navbar />
     </Art>
@@ -107,6 +145,7 @@ const Art = styled.div`
   height: 100vh;
   display: flex;
   justify-content: center;
+  padding: 50px 0;
 
   h2 {
     position: absolute;
@@ -131,7 +170,7 @@ const Art = styled.div`
     }
   }
 
-  button {
+  /*   button {
     position: fixed;
     top: 50;
     right: 0;
@@ -139,29 +178,37 @@ const Art = styled.div`
     height: 400px;
     background-image: url(${(props) => props.back});
     background-size: cover;
-  }
-
+  } */
 `;
 
 const ArtNDesc = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
+  background-color: red;
   flex-direction: ${(props) => (props.mobile ? "column" : "row")};
-  .description {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+`;
 
-    p {
-      font-size: 20px;
-      line-height: 30px;
-      color: var(--white-base);
-      margin: 0 20%;
-      margin-top: 50px;
-      font-weight: bold;
-    }
+const Form = styled.form`
+  textarea {
+    resize: none;
+    width: 100%;
+    height: 100%;
   }
+`;
+
+const Description = styled.div`
+  position: fixed;
+  top: 50px;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 10px;
 `;

@@ -6,7 +6,7 @@ import axios from "axios";
 import UserContext from "../contexts/UserContext";
 
 function Create() {
-  const URL = "http://localhost:5000/post/aws";
+  const URL = "https://rys-gaiasenses.herokuapp.com/post/aws";
   const [posts, setPosts] = useState([]);
   const { userData } = useContext(UserContext);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -16,7 +16,7 @@ function Create() {
 
   const onInputChange = (e) => {
     setIsSelected(true);
-    setSelectedFile("e.target.files[0]");
+    setSelectedFile(e.target.files[0]);
   };
 
   function uploadImage() {

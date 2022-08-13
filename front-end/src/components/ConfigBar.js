@@ -33,7 +33,6 @@ function ConfigBar() {
       .get(`${APIURL}lat=${latitude}&lon=${longitude}&appid=${APIKEY}`)
       .then((response) => {
         setWeather(response.data);
-        console.log(response.data);
       })
       .catch((err) => console.log(err));
   }

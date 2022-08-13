@@ -6,8 +6,7 @@ import Image from "./Image";
 
 import styles from "../css/styles.module.css";
 
-function Masonry({posts}) {
-  const [flipped, setFlipped] = useState(0);
+function Masonry({posts, userPosts}) {
   // Hook1: Tie media queries to the number of columns
   const columns = useMedia(
     ["(min-width: 1500px)", "(min-width: 1000px)", "(min-width: 600px)"],
@@ -20,8 +19,8 @@ function Masonry({posts}) {
   const [items, set] = useState(posts);
   // Hook4: shuffle data every 2 seconds
   useEffect(() => {
-    /* const t = setInterval(() => set(shuffle), 5000);
-    return () => clearInterval(t); */
+      const t = setInterval(() => set(shuffle), 5000);
+      return () => clearInterval(t);
   }, []);
   // Hook5: Form a grid of stacked items using width & columns we got from hooks 1 & 2
   const [heights, gridItems] = useMemo(() => {
@@ -42,7 +41,7 @@ function Masonry({posts}) {
   }, [columns, items, width]);
   // Hook6: Turn the static grid values into animated transitions, any addition, removal or change will be animated
   const transitions = useTransition(gridItems, {
-    key: (item) => item.url,
+    key: (item) => item.id,
     from: ({ x, y, width, height }) => ({ x, y, width, height, opacity: 0 }),
     enter: ({ x, y, width, height }) => ({ x, y, width, height, opacity: 1 }),
     update: ({ x, y, width, height }) => ({ x, y, width, height }),
@@ -61,6 +60,7 @@ function Masonry({posts}) {
         <a.div style={style}>
           <Image
             post={item}
+            userPosts={userPosts}
           />
         </a.div>
       ))}

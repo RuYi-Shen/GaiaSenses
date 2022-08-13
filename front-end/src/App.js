@@ -31,8 +31,8 @@ function App() {
           <Route path="/discover" element={<Discover />} />
           <Route path="/favorite" element={<Favorite />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/daily" element={<Create />} />
-          <Route path="/add" element={<Daily />} />
+          <Route path="/create" element={<Daily />} />
+          {/* <Route path="/add" element={<Daily />} /> */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

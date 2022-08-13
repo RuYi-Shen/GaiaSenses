@@ -19,9 +19,9 @@ function Navbar() {
         }}
       >
         {page === "/feed" ? (
-          <ion-icon name="home"></ion-icon>
+          <ion-icon name="podium"></ion-icon>
         ) : (
-          <ion-icon name="home-outline"></ion-icon>
+          <ion-icon name="podium-outline"></ion-icon>
         )}
       </div>
       <div
@@ -38,11 +38,11 @@ function Navbar() {
       </div>
       <div
         onClick={() => {
-          setPage("/add");
-          navigate("/add");
+          setPage("/create");
+          navigate("/create");
         }}
       >
-        {page === "/add" ? (
+        {page === "/create" ? (
           <ion-icon name="add-circle"></ion-icon>
         ) : (
           <ion-icon name="add-circle-outline"></ion-icon>

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useSpring, a } from "@react-spring/web";
 import Like from "./Like";
+import Publish from "./Publish";
+import User from "./User";
 
 import styles from "../css/styles.module.css";
 
-function Image({post}) {
+function Image({post, userPosts}) {
   const [flipped, set] = useState(false);
   const { transform, opacity } = useSpring({
     opacity: flipped ? 1 : 0,
@@ -13,7 +15,8 @@ function Image({post}) {
   });
   return (
     <div className={styles.container} onClick={() => set(!flipped)}>
-      <Like postId={post.id} published={post.published} likes={post.likes} user={post.user}></Like>
+      <Like postId={post.id} likes={post.likes} user={post.user}></Like>
+      {userPosts ? <Publish postId={post.id} published={post.published}></Publish> : <></>}
       <a.div
         className={`${styles.c}`}
         style={{
@@ -23,10 +26,13 @@ function Image({post}) {
           alignItems: "center",
           opacity,
           transform,
+          padding: "0 20px",
+          lineHeight: "1.5",
+          fontSize: "15px",
         }}
       >
-        {post.content}
-        
+        {`" ${post.content} "`}
+        <User user={post.user}></User>
       </a.div>
       <a.img
         src={post.url}

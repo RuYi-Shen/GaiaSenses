@@ -5,10 +5,12 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import UserContext from "../contexts/UserContext";
 import Mansory from "../components/Mansory";
+import { Circles } from "react-loader-spinner";
 
 function Profile() {
-  //const URL = "https://rys-gaiasenses.herokuapp.com/post/user";
-  const URL = "http://localhost:5000/post/user";
+  const [loading, setLoading] = useState(true);
+  const URL = "https://rys-gaiasenses.herokuapp.com/post/user";
+  //const URL = "http://localhost:5000/post/user";
 
   const [posts, setPosts] = useState([]);
   const { userData } = useContext(UserContext);
@@ -22,16 +24,23 @@ function Profile() {
       })
       .then((res) => {
         setPosts(res.data);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [userData.token]);
 
   return (
     <Main>
       <ConfigBar />
-      {posts.length > 0 ? <Mansory posts={posts} /> : <> No posts yet </>}
+      {loading ? (
+        <div className="noPost"><Circles color="#00bcd4" /></div>
+      ) : posts.length > 0 ? (
+        <Mansory posts={posts} userPosts />
+      ) : (
+        <p className="noPost"> No posts yet </p>
+      )}
       <Navbar />
     </Main>
   );
@@ -42,4 +51,16 @@ export default Profile;
 const Main = styled.main`
   width: 100%;
   padding: 50px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .noPost {
+    text-align: center;
+    font-size: 30px;
+    height: calc(100vh - 100px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
