@@ -7,14 +7,15 @@ import UserContext from "../contexts/UserContext";
 import Mansory from "../components/Mansory";
 import { Circles } from "react-loader-spinner";
 
-function Feed() {
+function Favorite() {
   const [loading, setLoading] = useState(true);
-  const URL = "https://rys-gaiasenses.herokuapp.com/post";
-  //const URL = "http://localhost:5000/post";
+  const [isShowingAlert, setShowingAlert] = useState(true);
+  const URL = "https://rys-gaiasenses.herokuapp.com/post/like";
+  //const URL = "http://localhost:5000/post/like";
 
   const [posts, setPosts] = useState([]);
   const { userData } = useContext(UserContext);
-  const [isShowingAlert, setShowingAlert] = useState(true);
+
   setTimeout(() => {
     setShowingAlert(false);
   }, 2000);
@@ -38,11 +39,13 @@ function Feed() {
   return (
     <Main>
       <Popup display={isShowingAlert}>
-          <p>Trends! See this week's most liked posts!</p>
+          <p>Favorites! remember the posts you liked the most!</p>
       </Popup>
       <ConfigBar />
       {loading ? (
-        <div className="noPost"><Circles color="#00bcd4" /></div>
+        <div className="noPost">
+          <Circles color="#00bcd4" />
+        </div>
       ) : posts.length > 0 ? (
         <Mansory posts={posts} />
       ) : (
@@ -53,7 +56,7 @@ function Feed() {
   );
 }
 
-export default Feed;
+export default Favorite;
 
 const Main = styled.main`
   width: 100%;

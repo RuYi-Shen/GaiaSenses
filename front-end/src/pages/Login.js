@@ -36,7 +36,6 @@ export default function Login() {
       .get(`${APIURL}lat=${latitude}&lon=${longitude}&appid=${APIKEY}`)
       .then((response) => {
         setWeather(response.data);
-        console.log(response.data);
       })
       .catch((err) => console.log(err));
   }
@@ -47,7 +46,7 @@ export default function Login() {
 
   useEffect(() => {
     if (localStorage.getItem("userData")) {
-      setUserData(JSON.parse(localStorage.getItem("userData")));
+      setUserData(JSON.parse(localStorage.getItem("userData"))); 
       setDisabled(true);
       getUserLocation();
     }
@@ -69,7 +68,7 @@ export default function Login() {
   }, [userInfo]);
 
   useEffect(() => {
-    if (weather.weather && userData.email) {
+    if (weather.weather && userData.name) {
       navigate("/feed");
     }
   }, [weather]);

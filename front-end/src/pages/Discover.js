@@ -7,10 +7,11 @@ import UserContext from "../contexts/UserContext";
 import Mansory from "../components/Mansory";
 import { Circles } from "react-loader-spinner";
 
-function Feed() {
+function Discover() {
   const [loading, setLoading] = useState(true);
-  const URL = "https://rys-gaiasenses.herokuapp.com/post";
-  //const URL = "http://localhost:5000/post";
+  const URL = "https://rys-gaiasenses.herokuapp.com/post/new";
+  //const URL = "http://localhost:5000/post/new";
+  
 
   const [posts, setPosts] = useState([]);
   const { userData } = useContext(UserContext);
@@ -38,7 +39,7 @@ function Feed() {
   return (
     <Main>
       <Popup display={isShowingAlert}>
-          <p>Trends! See this week's most liked posts!</p>
+          <p>Discover! Find out our newest posts!</p>
       </Popup>
       <ConfigBar />
       {loading ? (
@@ -53,7 +54,7 @@ function Feed() {
   );
 }
 
-export default Feed;
+export default Discover;
 
 const Main = styled.main`
   width: 100%;

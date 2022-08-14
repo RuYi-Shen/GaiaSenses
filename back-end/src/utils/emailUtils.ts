@@ -1,24 +1,27 @@
 import sgMail from "@sendgrid/mail";
 
-export async function sendEmail(email: string, key: string) {
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  const msg = {
-    to: email, // Change to your recipient
-    from: "r205612@dac.unicamp.br", // Change to your verified sender
-    subject: "Welcome to GaiaSenses! Confirm Your Email",
-    text: "gaia senses",
-    html: buildEmail(key),
-  };
-  let sent = false;
-  await Promise.all([sgMail.send(msg)])
-    .then(() => {
-      console.log("Email sent");
-      sent = true;
-    })
-    .catch((error) => {
-      console.log(error.response.body);
-    });
-  return sent;
+async function sendEmail(email: string, key: string) {
+  if (process.env.MODE !== "test") {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const msg = {
+      to: email, // Change to your recipient
+      from: "r205612@dac.unicamp.br", // Change to your verified sender
+      subject: "Welcome to GaiaSenses! Confirm Your Email",
+      text: "gaia senses",
+      html: buildEmail(key),
+    };
+    let sent = false;
+    await Promise.all([sgMail.send(msg)])
+      .then(() => {
+        console.log("Email sent");
+        sent = true;
+      })
+      .catch((error) => {
+        console.log(error.response.body);
+      });
+    return sent;
+  }
+  return true;
 }
 
 function buildEmail(key: string) {
@@ -93,3 +96,7 @@ function buildEmail(key: string) {
 </div>
 </div>`;
 }
+
+export const emailUtils = {
+  sendEmail,
+};

@@ -1,10 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Feed from "./pages/Feed";
-import Daily from "./pages/Daily";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
-import Add from "./pages/Add";
+import Discover from "./pages/Discover";
+import Create from "./pages/Create";
+import Favorite from "./pages/Favorite";
+import Profile from "./pages/Profile";
 import UserContext from "./contexts/UserContext";
 import { useState } from "react";
 
@@ -24,8 +26,10 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/feed" element={<Feed />} />
-          <Route path="/add" element={<Add />} />
-          <Route path="/daily" element={<Daily />} />
+          <Route path="/discover" element={<Discover />} />
+          <Route path="/favorite" element={<Favorite />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/create" element={<Create />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
