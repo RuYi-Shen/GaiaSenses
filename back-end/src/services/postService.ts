@@ -1,5 +1,5 @@
-import { postRepository, PostContent } from "../repositories/postRepository.js";
 import { likeService } from "../services/likeService.js";
+import { postRepository, PostContent } from "../repositories/postRepository.js";
 
 async function createPost(postInfo: PostContent) {
   return await postRepository.create(postInfo);

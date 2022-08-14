@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import * as userRepository from "../repositories/userRepository.js";
+import { Request, Response, NextFunction } from "express";
+import { userRepository } from "../repositories/userRepository.js";
 
 export function validateSchema(schema: any) {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -26,9 +26,7 @@ export async function validateToken(
     return res.sendStatus(401);
   }
   const { userId }: any = jwt.verify(token, process.env.SECRET_KEY);
-  if (!userId) {
-    return res.sendStatus(401);
-  }
+  
   const user = await userRepository.findById(+userId);
   if (!user) {
     return res.sendStatus(401);

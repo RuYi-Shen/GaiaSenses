@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
-import { Request, Response, NextFunction } from "express";
-import * as userRepository from "../repositories/userRepository.js";
 import jwt from "jsonwebtoken";
+import { Request, Response, NextFunction } from "express";
+import { userRepository } from "../repositories/userRepository.js";
 
 export async function validateEmail(
   req: Request,
@@ -55,7 +55,11 @@ export async function validateKey(
     return res.status(404).send("User not found");
   }
   if (user.activated) {
-    return res.status(401).send(`<p>Account already activated, please visit: <a href="https://gaia-senses.vercel.app/">GaiaSenses</a></p>`);
+    return res
+      .status(401)
+      .send(
+        `<p>Account already activated, please visit: <a href="https://gaia-senses.vercel.app/">GaiaSenses</a></p>`
+      );
   }
   res.locals.user = user;
   next();
