@@ -1,7 +1,9 @@
 import { prisma } from "../database.js";
 import { User } from "@prisma/client";
 
-export async function findById(id: number) {
+export type UserRegister = Omit<User, "id" | "avatar" | "activated">;
+
+async function findById(id: number) {
   return await prisma.user.findUnique({
     where: {
       id,
@@ -9,7 +11,7 @@ export async function findById(id: number) {
   });
 }
 
-export async function findByEmail(email: string) {
+async function findByEmail(email: string) {
   return await prisma.user.findUnique({
     where: {
       email,
@@ -17,13 +19,13 @@ export async function findByEmail(email: string) {
   });
 }
 
-export async function create(userInfo: User) {
+async function create(userInfo: UserRegister) {
   return await prisma.user.create({
     data: userInfo,
   });
 }
 
-export async function activate(id: number) {
+async function activate(id: number) {
   return await prisma.user.update({
     where: {
       id,
@@ -33,3 +35,10 @@ export async function activate(id: number) {
     },
   });
 }
+
+export const userRepository = {
+  findById,
+  findByEmail,
+  create,
+  activate,
+};

@@ -1,6 +1,6 @@
 import sgMail from "@sendgrid/mail";
 
-export async function sendEmail(email: string, key: string) {
+async function sendEmail(email: string, key: string) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   const msg = {
     to: email, // Change to your recipient
@@ -92,4 +92,8 @@ function buildEmail(key: string) {
 </table>
 </div>
 </div>`;
+}
+
+export const emailUtils = {
+    sendEmail,
 }

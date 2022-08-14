@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { Request, Response, NextFunction } from "express";
 import * as userRepository from "../repositories/userRepository.js";
 
 export function validateSchema(schema: any) {

@@ -24,7 +24,11 @@ async function activateAccount(req: Request, res: Response) {
   const { user } = res.locals;
 
   await authService.activateAccount(user.id);
-  res.status(200).send(`<p>Account activated successfully, please visit: <a href="https://gaia-senses.vercel.app/">GaiaSenses</a></p>`);
+  res
+    .status(200)
+    .send(
+      `<p>Account activated successfully, please visit: <a href="https://gaia-senses.vercel.app/">GaiaSenses</a></p>`
+    );
 }
 
 export const authController = {
