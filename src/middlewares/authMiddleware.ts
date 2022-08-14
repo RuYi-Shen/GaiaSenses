@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-import * as userRepository from "../repositories/userRepository.js";
+import { userRepository } from "../repositories/userRepository.js";
 
 export async function validateEmail(
   req: Request,

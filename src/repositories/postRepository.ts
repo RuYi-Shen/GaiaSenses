@@ -99,14 +99,6 @@ async function findLiked(userId: number) {
   });
 }
 
-async function deleteById(id: number) {
-  return await prisma.post.delete({
-    where: {
-      id,
-    },
-  });
-}
-
 export const postRepository = {
   create,
   publish,
@@ -115,5 +107,4 @@ export const postRepository = {
   findLastWeek,
   findUser,
   findLiked,
-  deleteById,
 };

@@ -1,122 +1,115 @@
-import app from "../src/app.js";
+import app from "../../src/app.js";
 import supertest from "supertest";
-import { prisma } from "../src/database.js";
-import { insertOne } from "./factories/recommendationsFactory.js";
+import { prisma } from "../../src/database.js";
+import jwt from "jsonwebtoken";
+import { createUser } from "../factories/userFactory";
+import { createPost } from "../factories/postFactory";
+import { resetDatabase } from "../factories/databaseFactory";
+import { faker } from "@faker-js/faker";
 
 beforeEach(async () => {
-  await prisma.recommendation.deleteMany({});
+  await resetDatabase();
 });
 
-describe("POST /recommendations", () => {
-  it("given a video with duplicate name it should return 409", async () => {
-    const newVideo = {
-      name: "孤城",
-      youtubeLink: "https://www.youtube.com/watch?v=r2sCy9ZOToA",
+describe("post posts", () => {
+  it("should return 201 when create post with valid parameters", async () => {
+    const post = {
+      content: faker.lorem.paragraph(),
+      url: faker.internet.url(),
     };
-
-    const firstTry = await supertest(app)
-      .post("/recommendations")
-      .send(newVideo);
-    expect(firstTry.status).toEqual(201);
-
-    const secondTry = await supertest(app)
-      .post("/recommendations")
-      .send(newVideo);
-    expect(secondTry.status).toEqual(409);
-
-    const videoFromDb = await prisma.recommendation.findUnique({
-      where: {
-        name: newVideo.name,
-      },
-    });
-    expect(videoFromDb).toBeDefined();
-  });
-
-  it("given a video with no name it should return 422", async () => {
-    const newVideo = {
-      youtubeLink: "https://www.youtube.com/watch?v=r2sCy9ZOToA",
-    };
+    const token = await createUser();
 
     const response = await supertest(app)
-      .post("/recommendations")
-      .send(newVideo);
-    expect(response.status).toEqual(422);
+      .post("/post")
+      .set("Authorization", `Bearer ${token}`)
+      .send(post);
+    expect(response.status).toBe(201);
+    const postFromDb = await prisma.post.findFirst({
+      where: {
+        content: post.content,
+      },
+    });
+    expect(postFromDb).toBeDefined();
   });
-
-  it("given a video with invalid youtube link it should return 422", async () => {
-    const newVideo = {
-      name: "孤城",
-      youtubeLink: "https://www.google.com.br/",
-    };
+  it("should return 200 when publish valid post", async () => {
+    const token = await createUser();
+    const postId = await createPost(token);
 
     const response = await supertest(app)
-      .post("/recommendations")
-      .send(newVideo);
-    expect(response.status).toEqual(422);
-  });
-
-  it("given a valid video ID up vote should return 200", async () => {
-    const id = await insertOne();
-
-    const response = await supertest(app).post(`/recommendations/${id}/upvote`);
-    expect(response.status).toEqual(200);
-
-    const videoFromDb = await prisma.recommendation.findUnique({
+      .post(`/post/publish/${postId}`)
+      .set("Authorization", `Bearer ${token}`);
+    expect(response.status).toBe(200);
+    const postFromDb = await prisma.post.findFirst({
       where: {
-        id,
+        id: postId,
       },
     });
-    expect(videoFromDb.score).toBe(1);
+    expect(postFromDb.published).toBe(true);
   });
+});
 
-  it("given a invalid video ID vote should return 404", async () => {
-    const response = await supertest(app).post("/recommendations/0/upvote");
-    expect(response.status).toEqual(404);
+describe("get posts", () => {
+  it("should return 401/500 when absence/invalid token", async () => {
+    let token = faker.random.alphaNumeric(10);
+
+    const response1 = await supertest(app).get("/post");
+    expect(response1.status).toBe(401);
+    const response2 = await supertest(app)
+      .get("/post")
+      .set("Authorization", `Bearer ${token}`);
+    expect(response2.status).toBe(500);
+
+    const userId = 0;
+    token = jwt.sign({ userId }, process.env.SECRET_KEY);
+    const response3 = await supertest(app)
+      .get("/post")
+      .set("Authorization", `Bearer ${token}`);
+    expect(response3.status).toBe(401);
   });
+  it("should return 200 with list of best weekly posts", async () => {
+    const token = await createUser();
+    await createPost(token);
 
-  it("given a valid video ID down vote should return 200", async () => {
-    const id = await insertOne();
+    const response = await supertest(app)
+      .get("/post")
+      .set("Authorization", `Bearer ${token}`);
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveLength(0);
+  });
+  it("should return 200 with list of newest posts", async () => {
+    const token = await createUser();
+    await createPost(token);
 
-    const response = await supertest(app).post(
-      `/recommendations/${id}/downvote`
-    );
-    expect(response.status).toEqual(200);
-    const videoFromDb = await prisma.recommendation.findUnique({
-      where: {
-        id,
-      },
+    const response = await supertest(app)
+      .get("/post/new")
+      .set("Authorization", `Bearer ${token}`);
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveLength(0);
+  });
+  it("should return 200 with list of user posts", async () => {
+    const token = await createUser();
+    await createPost(token);
+    const { userId }: any = jwt.verify(token, process.env.SECRET_KEY);
+
+    const response = await supertest(app)
+      .get("/post/user")
+      .set("Authorization", `Bearer ${token}`);
+    expect(response.status).toBe(200);
+    response.body.forEach((post: any) => {
+      expect(post.userId).toBe(userId);
     });
-    expect(videoFromDb.score).toBe(-1);
   });
+  it("should return 200 with list of liked posts", async () => {
+    const token = await createUser();
+    await createPost(token);
 
-  it("should exclude recommendation when score below -5", async () => {
-    const id = await insertOne();
-
-    for (let i = 0; i > -5; i--) {
-      const response = await supertest(app).post(
-        `/recommendations/${id}/downvote`
-      );
-    }
-
-    let videoFromDb = await prisma.recommendation.findUnique({
-      where: {
-        id,
-      },
+    const response = await supertest(app)
+      .get("/post/like")
+      .set("Authorization", `Bearer ${token}`);
+    expect(response.status).toBe(200);
+    response.body.forEach((post: any) => {
+      expect(post.liked).toBe(true);
     });
-    expect(videoFromDb.score).toBe(-5);
-    await supertest(app).post(`/recommendations/${id}/downvote`);
-
-    videoFromDb = await prisma.recommendation.findUnique({
-      where: {
-        id,
-      },
-    });
-    expect(videoFromDb).toBeNull();
-  });
-
-  it("given a invalid video ID down vote should return 404", async () => {
-    const response = await supertest(app).post("/recommendations/0/downvote");
-    expect(response.status).toEqual(404);
   });
 });
 

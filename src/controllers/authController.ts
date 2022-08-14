@@ -10,7 +10,7 @@ async function createUser(req: Request, res: Response) {
   }
   await authService.createUser(userInfo);
 
-  res.status(200).send("Account created successfully, please check your email");
+  res.status(201).send("Account created successfully, please check your email");
 }
 
 function createSession(req: Request, res: Response) {

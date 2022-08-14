@@ -9,13 +9,13 @@ const postRouter = Router();
 
 postRouter.use(validateToken);
 
-postRouter.post("/aws", upload.array("file"), (req, res) => {
+/* postRouter.post("/aws", upload.array("file"), (req, res) => {
   const a = req.files;
   console.log({ a });
   res.send("ok");
-});
-postRouter.post("/publish/:postId", postController.publishPost);
+}); */
 postRouter.post("/", validateSchema(createPostInfo), postController.createPost);
+postRouter.post("/publish/:postId", postController.publishPost);
 postRouter.get("/", postController.getPosts);
 postRouter.get("/new", postController.getNewPosts);
 postRouter.get("/user", postController.getUserPosts);
