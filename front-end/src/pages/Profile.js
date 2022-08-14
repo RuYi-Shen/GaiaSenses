@@ -7,10 +7,10 @@ import UserContext from "../contexts/UserContext";
 import Mansory from "../components/Mansory";
 import { Circles } from "react-loader-spinner";
 
-function Feed() {
+function Profile() {
   const [loading, setLoading] = useState(true);
-  const URL = "https://rys-gaiasenses.herokuapp.com/post";
-  //const URL = "http://localhost:5000/post";
+  const URL = "https://rys-gaiasenses.herokuapp.com/post/user";
+  //const URL = "http://localhost:5000/post/user";
 
   const [posts, setPosts] = useState([]);
   const { userData } = useContext(UserContext);
@@ -38,13 +38,15 @@ function Feed() {
   return (
     <Main>
       <Popup display={isShowingAlert}>
-          <p>Trends! See this week's most liked posts!</p>
+          <p>History! See all your art works!</p>
       </Popup>
       <ConfigBar />
       {loading ? (
-        <div className="noPost"><Circles color="#00bcd4" /></div>
+        <div className="noPost">
+          <Circles color="#00bcd4" />
+        </div>
       ) : posts.length > 0 ? (
-        <Mansory posts={posts} />
+        <Mansory posts={posts} userPosts />
       ) : (
         <p className="noPost"> No posts yet </p>
       )}
@@ -53,11 +55,14 @@ function Feed() {
   );
 }
 
-export default Feed;
+export default Profile;
 
 const Main = styled.main`
   width: 100%;
   padding: 50px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   .noPost {
     text-align: center;

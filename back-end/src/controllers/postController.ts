@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { postService } from "../services/postService.js";
-import { likeService } from "../services/likeService.js";
 
 async function createPost(req: Request, res: Response) {
   const userId = res.locals.user.id;
@@ -10,13 +9,23 @@ async function createPost(req: Request, res: Response) {
   res.sendStatus(201);
 }
 
+async function publishPost(req: Request, res: Response) {
+  const postId = +req.params.postId;
+  const userId = res.locals.user.id;
+
+  await postService.publishPost(postId, userId);
+  res.sendStatus(200);
+}
+
 async function getPosts(req: Request, res: Response) {
-  const posts = await postService.getBestPosts();
+  const userId = res.locals.user.id;
+  const posts = await postService.getBestPosts(userId);
   res.json(posts);
 }
 
 async function getNewPosts(req: Request, res: Response) {
-  const posts = await postService.getNewPosts();
+  const userId = res.locals.user.id;
+  const posts = await postService.getNewPosts(userId);
   res.json(posts);
 }
 
@@ -34,28 +43,11 @@ async function getLikedPosts(req: Request, res: Response) {
   res.json(posts);
 }
 
-async function likePost(req: Request, res: Response) {
-  const postId = +req.params.postId;
-  const userId = res.locals.user.id;
-
-  await likeService.likePost({ postId, userId });
-  res.sendStatus(200);
-}
-
-async function dislikePost(req: Request, res: Response) {
-  const postId = +req.params.postId;
-  const userId = res.locals.user.id;
-
-  await likeService.dislikePost({ postId, userId });
-  res.sendStatus(200);
-}
-
 export const postController = {
   createPost,
+  publishPost,
   getPosts,
   getNewPosts,
   getUserPosts,
   getLikedPosts,
-  likePost,
-  dislikePost,
 };

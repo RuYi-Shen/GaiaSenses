@@ -41,12 +41,19 @@ const Weather = styled.div`
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
-  height: 40vh;
+  align-items: center;
+
+  img {
+    height: 20vh;
+    width: 20vh;
+    margin: -15px;
+  }
 
   div {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
   }
 
   p{

@@ -10,13 +10,15 @@ class Particle {
   }
 }
 
-export default class ChaosTree extends Component {
+class ChaosTree extends Component {
   img;
   particles = [];
   v;
+  x;
+  y;
 
   preload = (p5) => {
-    this.img = p5.loadImage("chaostree.jpg");
+    this.img = p5.loadImage(this.props.imageUrl);
   };
 
   setup = (p5, parentRef) => {
@@ -47,12 +49,17 @@ export default class ChaosTree extends Component {
     p5.image(this.img, 0, 0);
 
     for (const particle of this.particles) {
+      if(p5.mouseX < this.img.width && p5.mouseX > 0 && p5.mouseY < this.img.height && p5.mouseY > 0) {
+        this.x = p5.mouseX;
+        this.y = p5.mouseY;
+      }
+      
       p5.fill(particle.col);
       const t =
           1 -
           5e-4 *
-            (Math.pow(particle.pos.x - p5.mouseX, 2) +
-              Math.pow(particle.pos.y - p5.mouseY, 2)),
+            (Math.pow(particle.pos.x - this.x, 2) +
+              Math.pow(particle.pos.y - this.y, 2)),
         p = p5.createVector((1-t) * particle.pos.x + particle.tgt.x * t, (1-t) * particle.pos.y + particle.tgt.y * t);
       p5.circle(p.x, p.y, particle.size);
     }
@@ -64,3 +71,5 @@ export default class ChaosTree extends Component {
     );
   }
 }
+
+export default ChaosTree;

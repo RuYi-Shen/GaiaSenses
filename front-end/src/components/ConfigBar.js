@@ -33,7 +33,6 @@ function ConfigBar() {
       .get(`${APIURL}lat=${latitude}&lon=${longitude}&appid=${APIKEY}`)
       .then((response) => {
         setWeather(response.data);
-        console.log(response.data);
       })
       .catch((err) => console.log(err));
   }
@@ -83,6 +82,9 @@ function ConfigBar() {
         <div
           className="refresh"
           onClick={() => {
+            setWeather({});
+            setLatitude(0);
+            setLongitude(0);
             getUserLocation();
           }}
         >
@@ -159,6 +161,7 @@ const Config = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 100px 0;
+  z-index: 5;
 
   span {
     font-weight: bold;
