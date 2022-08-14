@@ -5,7 +5,7 @@ import { useState, useEffect, useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
 
-export default function Like({ postId, likes, user }) {
+export default function Like({ postId, likes }) {
   const URL = "https://rys-gaiasenses.herokuapp.com/like";
   const { userData } = useContext(UserContext);
   const [infoText, setInfoText] = useState("no one has liked this post yet");
@@ -24,7 +24,7 @@ export default function Like({ postId, likes, user }) {
     e.stopPropagation();
     if (!likesInfo.liked) {
       let aux = [...likesInfo.users];
-      aux.push({name: user.name});
+      aux.push({name: userData.name});
       setLikesInfo({ liked: true, count: likesInfo.count + 1, users: aux });
       axios
         .post(`${URL}/${postId}`, {}, { headers: { Authorization: `Bearer ${userData.token}` } })

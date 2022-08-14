@@ -1,120 +1,237 @@
 import styled from "styled-components";
+import Tree from "../components/Tree.js";
+import { useEffect, useState, useContext, useCallback } from "react";
+import WeatherBar from "../components/WeatherBar.js";
 import Navbar from "../components/Navbar";
-import ConfigBar from "../components/ConfigBar";
-import { useState, useEffect, useContext } from "react";
+import ConfigBar from "../components/ConfigBar.js";
+import ChaosTree from "../components/ChaosTree.js";
 import axios from "axios";
 import UserContext from "../contexts/UserContext";
 
 function Create() {
-  const URL = "https://rys-gaiasenses.herokuapp.com/post/aws";
-  const [posts, setPosts] = useState([]);
+  const [weather, setWeather] = useState({});
+  const [treeColor, setTreeColor] = useState("#FFFFFF");
+  const [width, setWidth] = useState(window.screen.availWidth);
+  const [height, setHeight] = useState(window.screen.availHeight - 150);
+  const [mobile, setMobile] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  const [inputUrl, setInputUrl] = useState("");
+  const [composeUrl, setComposeUrl] = useState("");
+  const [contentText, setContentText] = useState("");
+  const [artType, setArtType] = useState("chaos");
   const { userData } = useContext(UserContext);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [isSelected, setIsSelected] = useState(false);
-  const [uploadSucess, setUploadSucess] = useState(false);
-  const [showSpinner, setShowSpinner] = useState(false);
+  const URL = "https://rys-gaiasenses.herokuapp.com/post/";
+  const [isShowingAlert, setShowingAlert] = useState(true);
+  setTimeout(() => {
+    setShowingAlert(false);
+  }, 2000);
 
-  const onInputChange = (e) => {
-    setIsSelected(true);
-    setSelectedFile(e.target.files[0]);
+  useEffect(() => {
+    if (localStorage.getItem("weather")) {
+      setWeather(JSON.parse(localStorage.getItem("weather")));
+    }
+    if (width > height) {
+      setWidth(height);
+    } else {
+      setHeight(width);
+      setMobile(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (weather.weather) {
+      setTreeColor(weatherColor[weather.weather[0].description]);
+    }
+  }, [weather]);
+
+  const Compose = useCallback(() => {
+    if (artType === "chaos") {
+      return (
+        <ChaosTree
+          width={width}
+          height={height}
+          imageUrl={imageUrl || "chaostree.jpg"}
+        />
+      );
+    } else {
+      return (
+        <>
+          <Tree color={treeColor || "#FFFFFF"} width={width} height={height} />;
+          <WeatherBar color={setTreeColor} />
+        </>
+      );
+    }
+  }, [artType, treeColor, width, height, imageUrl]);
+
+  const weatherColor = {
+    "clear sky": "#FF0000",
+    "few clouds": "#FF7F00",
+    "scattered clouds": "#FFFF00",
+    "broken clouds": "#00FF00",
+    "shower rain": "#0000FF",
+    "light rain": "#4B0082",
+    thunderstorm: "#9400D3",
+    snow: "#FFFFFF",
+    mist: "#B3AFAF",
   };
 
-  function uploadImage() {
-    setShowSpinner(true);
-    if (selectedFile) {
-      const formData = new FormData();
-      formData.append("file", selectedFile, selectedFile.name);
-      console.log(formData, selectedFile, selectedFile.name);
-  
+  function saveCanvas() {
+    const canvas = document.getElementById("defaultCanvas0");
+    setComposeUrl(canvas.toDataURL("image/jpeg", 0));
+  }
 
+  useEffect(() => {
+    if (composeUrl) {
       axios
-      .post(URL, formData, {
-        headers: {
-          "Content-Type": "form-data",
-          Authorization: `Bearer ${userData.token}`,
-        },
-      })
+        .post(
+          URL,
+          { url: composeUrl, content: contentText || " " },
+          {
+            headers: {
+              Authorization: "Bearer " + userData.token,
+            },
+          }
+        )
         .then((res) => {
-          setUploadSucess(true);
-          setShowSpinner(false);
+          window.alert("Image successfully saved");
+          setContentText("");
         })
         .catch((err) => {
           console.log(err);
-        })
-        .finally(() => {
-          setIsSelected(false);
         });
     }
+  }, [composeUrl]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setImageUrl(inputUrl);
+    setInputUrl("");
   }
 
-  /*   useEffect(() => {
-    axios
-      .get(URL, {
-        headers: {
-          Authorization: "Bearer " + userData.token,
-        },
-      })
-      .then((res) => {
-        setPosts(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []); */
+  function handleSave(e) {
+    e.preventDefault();
+    saveCanvas();
+  }
 
-  return posts ? (
-    <Main>
+  return (
+    <Art back={composeUrl ? composeUrl : "pink"}>
+      <Popup display={isShowingAlert}>
+        <p>Create! Show us what's in your mind!</p>
+      </Popup>
       <ConfigBar />
-      <input type="file" id="file" onChange={onInputChange} />
-      <button type="submit" disabled={!isSelected} onClick={uploadImage}>
-        Upload
-      </button>
+      <ArtNDesc mobile={mobile}>
+        <div>{width === height ? <Compose /> : <></>}</div>
+        <Description>
+          <p>Select the art type:</p>
+          <select value={artType} onChange={(e) => setArtType(e.target.value)}>
+            <option value="chaos">Chaos</option>
+            <option value="weather-tree">Weather-Tree</option>
+          </select>
+          <p>Insert a image url or use the default image:</p>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="url"
+              id="imageUrl"
+              placeholder="Image Url"
+              required
+              value={inputUrl}
+              onChange={(e) => setInputUrl(e.target.value)}
+            />
+            <button type="submit">Submit</button>
+          </form>
+          <p>Insert your art description:</p>
+          <Form onSubmit={handleSave}>
+            <textarea
+              placeholder="What is in your mind?"
+              maxLength="150"
+              rows="4"
+              required
+              value={contentText}
+              onChange={(e) => {
+                setContentText(e.target.value);
+              }}
+            ></textarea>
+            <button type="submit">Save</button>
+          </Form>
+        </Description>
+      </ArtNDesc>
       <Navbar />
-    </Main>
-  ) : (
-    <> </>
+    </Art>
   );
 }
 
 export default Create;
 
-const Main = styled.main`
-  width: 100%;
+const Art = styled.div`
+  position: relative;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
   padding: 50px 0;
-  line-height: 0;
-  -webkit-column-count: 5;
-  -webkit-column-gap: 0px;
-  -moz-column-count: 5;
-  -moz-column-gap: 0px;
-  column-count: 5;
-  column-gap: 0px;
-  img {
-    width: 100% !important;
-    height: auto !important;
+`;
+
+const ArtNDesc = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: ${(props) => (props.mobile ? "column" : "row")};
+`;
+
+const Form = styled.form`
+  textarea {
+    resize: none;
+    width: 100%;
+    height: 100%;
   }
-  @media (max-width: 1200px) {
-    #photos {
-      -moz-column-count: 4;
-      -webkit-column-count: 4;
-      column-count: 4;
+`;
+
+const Description = styled.div`
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 70px;
+
+  p{
+    margin: 10px 0;
+  }
+  form {
+    width: 100%;
+    input{
+      width: 100%;
+    }
+
+    button {
+      margin: 10px;
     }
   }
+`;
 
-  @media (max-width: 1000px) {
-    -moz-column-count: 3;
-    -webkit-column-count: 3;
-    column-count: 3;
-  }
+const Popup = styled.div`
+  position: fixed;
+  top: 100px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: ${(props) => (props.display ? 1 : 0)};
+  transition: all 250ms linear 2s;
+  z-index: 20;
 
-  @media (max-width: 800px) {
-    -moz-column-count: 2;
-    -webkit-column-count: 2;
-    column-count: 2;
-  }
-
-  @media (max-width: 400px) {
-    -moz-column-count: 1;
-    -webkit-column-count: 1;
-    column-count: 1;
+  p {
+    background-color: rgba(255, 255, 255, 0.5);
+    font-size: calc(1vw + 10px);
+    text-align: center;
+    max-width: 50%;
+    padding: 1vw;
+    border-radius: 1vw;
   }
 `;

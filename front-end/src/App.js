@@ -1,11 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Feed from "./pages/Feed";
-import Daily from "./pages/Daily";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 import Discover from "./pages/Discover";
-import Add from "./pages/Add";
 import Create from "./pages/Create";
 import Favorite from "./pages/Favorite";
 import Profile from "./pages/Profile";
@@ -31,8 +29,7 @@ function App() {
           <Route path="/discover" element={<Discover />} />
           <Route path="/favorite" element={<Favorite />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/create" element={<Daily />} />
-          {/* <Route path="/add" element={<Daily />} /> */}
+          <Route path="/create" element={<Create />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

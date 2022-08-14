@@ -9,11 +9,16 @@ import { Circles } from "react-loader-spinner";
 
 function Favorite() {
   const [loading, setLoading] = useState(true);
+  const [isShowingAlert, setShowingAlert] = useState(true);
   const URL = "https://rys-gaiasenses.herokuapp.com/post/like";
   //const URL = "http://localhost:5000/post/like";
 
   const [posts, setPosts] = useState([]);
   const { userData } = useContext(UserContext);
+
+  setTimeout(() => {
+    setShowingAlert(false);
+  }, 2000);
 
   useEffect(() => {
     axios
@@ -33,9 +38,14 @@ function Favorite() {
 
   return (
     <Main>
+      <Popup display={isShowingAlert}>
+          <p>Favorites! remember the posts you liked the most!</p>
+      </Popup>
       <ConfigBar />
       {loading ? (
-        <div className="noPost"><Circles color="#00bcd4" /></div>
+        <div className="noPost">
+          <Circles color="#00bcd4" />
+        </div>
       ) : posts.length > 0 ? (
         <Mansory posts={posts} />
       ) : (
@@ -59,5 +69,26 @@ const Main = styled.main`
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+`;
+
+const Popup = styled.div`
+  position: fixed;
+  top: 100px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: ${(props) => (props.display ? 1 : 0)};
+  transition: all 250ms linear 2s;
+  z-index: 20;
+
+  p {
+    background-color: rgba(255, 255, 255, 0.5);
+    font-size: calc(1vw + 10px);
+    text-align: center;
+    max-width: 50%;
+    padding: 1vw;
+    border-radius: 1vw;
   }
 `;

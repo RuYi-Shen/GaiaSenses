@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { postService } from "../services/postService.js";
 import { likeService } from "../services/likeService.js";
 
 async function likePost(req: Request, res: Response) {

@@ -14,6 +14,10 @@ function Feed() {
 
   const [posts, setPosts] = useState([]);
   const { userData } = useContext(UserContext);
+  const [isShowingAlert, setShowingAlert] = useState(true);
+  setTimeout(() => {
+    setShowingAlert(false);
+  }, 2000);
 
   useEffect(() => {
     axios
@@ -33,6 +37,9 @@ function Feed() {
 
   return (
     <Main>
+      <Popup display={isShowingAlert}>
+          <p>Trends! See this week's most liked posts!</p>
+      </Popup>
       <ConfigBar />
       {loading ? (
         <div className="noPost"><Circles color="#00bcd4" /></div>
@@ -59,5 +66,26 @@ const Main = styled.main`
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+`;
+
+const Popup = styled.div`
+  position: fixed;
+  top: 100px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: ${(props) => (props.display ? 1 : 0)};
+  transition: all 250ms linear 2s;
+  z-index: 20;
+
+  p {
+    background-color: rgba(255, 255, 255, 0.5);
+    font-size: calc(1vw + 10px);
+    text-align: center;
+    max-width: 50%;
+    padding: 1vw;
+    border-radius: 1vw;
   }
 `;
