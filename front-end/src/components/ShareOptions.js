@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 function ShareOptions({ open }) {
   return (
-    <Nav open={open}>
+    <Div open={open}>
       <div onClick={() => window.alert('Coming soon, please try to share via whatsapp')}>
         <ion-icon name="logo-instagram"></ion-icon>
       </div>
@@ -22,13 +22,13 @@ function ShareOptions({ open }) {
       <div onClick={() => window.alert('Coming soon, please try to share via whatsapp')}>
         <ion-icon name="mail-outline"></ion-icon>
       </div>
-    </Nav>
+    </Div>
   );
 }
 
 export default ShareOptions;
 
-const Nav = styled.nav`
+const Div = styled.div`
   background-color: var(--white-base);
   display: flex;
   flex-direction: column;

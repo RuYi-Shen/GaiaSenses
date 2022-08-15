@@ -11,71 +11,68 @@ function Navbar() {
   }, []);
 
   return (
-    <>
-      
-      <Nav>
-        <div
-          onClick={() => {
-            setPage("/feed");
-            navigate("/feed");
-          }}
-        >
-          {page === "/feed" ? (
-            <ion-icon name="podium"></ion-icon>
-          ) : (
-            <ion-icon name="podium-outline"></ion-icon>
-          )}
-        </div>
-        <div
-          onClick={() => {
-            setPage("/discover");
-            navigate("/discover");
-          }}
-        >
-          {page === "/discover" ? (
-            <ion-icon name="search"></ion-icon>
-          ) : (
-            <ion-icon name="search-outline"></ion-icon>
-          )}
-        </div>
-        <div
-          onClick={() => {
-            setPage("/create");
-            navigate("/create");
-          }}
-        >
-          {page === "/create" ? (
-            <ion-icon name="add-circle"></ion-icon>
-          ) : (
-            <ion-icon name="add-circle-outline"></ion-icon>
-          )}
-        </div>
-        <div
-          onClick={() => {
-            setPage("/favorite");
-            navigate("/favorite");
-          }}
-        >
-          {page === "/favorite" ? (
-            <ion-icon name="heart"></ion-icon>
-          ) : (
-            <ion-icon name="heart-outline"></ion-icon>
-          )}
-        </div>
-        <div
-          onClick={() => {
-            setPage("/profile");
-            navigate("/profile");
-          }}
-        >
-          {page === "/profile" ? (
-            <ion-icon name="person"></ion-icon>
-          ) : (
-            <ion-icon name="person-outline"></ion-icon>
-          )}
-        </div>
-      </Nav>
-    </>
+    <Nav>
+      <div id="feed"
+        onClick={() => {
+          setPage("/feed");
+          navigate("/feed");
+        }}
+      >
+        {page === "/feed" ? (
+          <ion-icon name="podium"></ion-icon>
+        ) : (
+          <ion-icon name="podium-outline"></ion-icon>
+        )}
+      </div>
+      <div id="discover"
+        onClick={() => {
+          setPage("/discover");
+          navigate("/discover");
+        }}
+      >
+        {page === "/discover" ? (
+          <ion-icon name="search"></ion-icon>
+        ) : (
+          <ion-icon name="search-outline"></ion-icon>
+        )}
+      </div>
+      <div id="create"
+        onClick={() => {
+          setPage("/create");
+          navigate("/create");
+        }}
+      >
+        {page === "/create" ? (
+          <ion-icon name="add-circle"></ion-icon>
+        ) : (
+          <ion-icon name="add-circle-outline"></ion-icon>
+        )}
+      </div>
+      <div id="favorite"
+        onClick={() => {
+          setPage("/favorite");
+          navigate("/favorite");
+        }}
+      >
+        {page === "/favorite" ? (
+          <ion-icon name="heart"></ion-icon>
+        ) : (
+          <ion-icon name="heart-outline"></ion-icon>
+        )}
+      </div>
+      <div id="profile"
+        onClick={() => {
+          setPage("/profile");
+          navigate("/profile");
+        }}
+      >
+        {page === "/profile" ? (
+          <ion-icon name="person"></ion-icon>
+        ) : (
+          <ion-icon name="person-outline"></ion-icon>
+        )}
+      </div>
+    </Nav>
   );
 }
 

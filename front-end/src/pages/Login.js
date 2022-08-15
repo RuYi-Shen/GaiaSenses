@@ -14,7 +14,8 @@ export default function Login() {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
   const [disabled, setDisabled] = useState(false);
-  const { userData, setUserData, weather, setWeather } = useContext(UserContext);
+  const { userData, setUserData, weather, setWeather } =
+    useContext(UserContext);
 
   const APIKEY = "10428b1c951b8f8f17e6acde5957b88f";
   const APIURL = "https://api.openweathermap.org/data/2.5/weather?";
@@ -46,7 +47,7 @@ export default function Login() {
 
   useEffect(() => {
     if (localStorage.getItem("userData")) {
-      setUserData(JSON.parse(localStorage.getItem("userData"))); 
+      setUserData(JSON.parse(localStorage.getItem("userData")));
       setDisabled(true);
       getUserLocation();
     }
@@ -110,6 +111,22 @@ const Main = styled.main`
     width: 50%;
     height: auto;
     margin-bottom: 5vh;
+  }
+
+  @media (max-height: 700px) {
+    img {
+      height: 20vh;
+      width: auto;
+    }
+    section > h1 {
+      font-size: 4vh !important;
+      margin-top: 0 !important;
+      margin-bottom: -20px;
+    }
+    a {
+      font-size: 2.2vh !important;
+      margin-top: -20px;
+    }
   }
 
   section {
