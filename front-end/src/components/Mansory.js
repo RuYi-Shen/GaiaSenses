@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
-import useMeasure from "react-use-measure";
 import { useTransition, a } from "@react-spring/web";
+import useMeasure from "react-use-measure";
 import shuffle from "lodash.shuffle";
 import Image from "./Image";
 

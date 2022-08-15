@@ -10,16 +10,14 @@ import logo from "../assets/gs_logo.png";
 
 export default function Login() {
   const URL = "https://rys-gaiasenses.herokuapp.com/auth/signin";
-
-  const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useState({});
-  const [disabled, setDisabled] = useState(false);
+  const APIURL = "https://api.openweathermap.org/data/2.5/weather?";
+  const APIKEY = "10428b1c951b8f8f17e6acde5957b88f";
   const { userData, setUserData, weather, setWeather } =
     useContext(UserContext);
+  const navigate = useNavigate();
 
-  const APIKEY = "10428b1c951b8f8f17e6acde5957b88f";
-  const APIURL = "https://api.openweathermap.org/data/2.5/weather?";
-
+  const [userInfo, setUserInfo] = useState({});
+  const [disabled, setDisabled] = useState(false);
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
 

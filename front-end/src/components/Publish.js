@@ -1,14 +1,14 @@
+import { useState, useContext } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { usePopperTooltip } from "react-popper-tooltip";
 import "react-popper-tooltip/dist/styles.css";
-import { useState, useContext } from "react";
 import UserContext from "../contexts/UserContext";
-import axios from "axios";
 
 export default function Publish({ postId, published }) {
   const URL = "https://rys-gaiasenses.herokuapp.com/post/publish";
-  const { userData } = useContext(UserContext);
   const [publishState, setPublishState] = useState(published);
+  const { userData } = useContext(UserContext);
 
   const {
     getArrowProps,

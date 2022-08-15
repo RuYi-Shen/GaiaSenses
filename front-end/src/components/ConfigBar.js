@@ -1,23 +1,23 @@
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useState, useEffect, useContext } from "react";
-import WeatherData from "./WeatherData";
 import axios from "axios";
+import WeatherData from "./WeatherData";
 import ShareOptions from "./ShareOptions.js";
 import UserContext from "../contexts/UserContext";
 
 function ConfigBar() {
   const navigate = useNavigate();
-  const [openConfig, setOpenConfig] = useState(false);
-  const [openShare, setOpenShare] = useState(false);
   const { userData, setUserData, weather, setWeather } =
     useContext(UserContext);
 
-  const APIKEY = "10428b1c951b8f8f17e6acde5957b88f";
-  const APIURL = "https://api.openweathermap.org/data/2.5/weather?";
-
+  const [openConfig, setOpenConfig] = useState(false);
+  const [openShare, setOpenShare] = useState(false);
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
+
+  const APIKEY = "10428b1c951b8f8f17e6acde5957b88f";
+  const APIURL = "https://api.openweathermap.org/data/2.5/weather?";
 
   function getUserLocation() {
     if ("geolocation" in navigator) {
@@ -38,7 +38,7 @@ function ConfigBar() {
   }
 
   useEffect(() => {
-    if (longitude != 0 && latitude != 0) getLocationWeather();
+    if (longitude !== 0 && latitude !== 0) getLocationWeather(); // eslint-disable-next-line
   }, [latitude, longitude]);
 
   return (

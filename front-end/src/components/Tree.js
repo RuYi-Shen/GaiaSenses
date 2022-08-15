@@ -2,19 +2,24 @@ import React, { Component } from "react";
 import Sketch from "react-p5";
 
 export default class Tree extends Component {
-  x = -this.props.width/2 || -500;
+  x = -this.props.width / 2 || -500;
   y = 50;
   theta = 0;
   dir = true;
   width = this.props.width || window.screen.availWidth;
   height = this.props.height || window.screen.availHeight - 150;
-  mouseX=0;
+  mouseX = 0;
 
   setup = (p5, parent) => {
     p5.createCanvas(this.width, this.height).parent(parent);
   };
   draw = (p5) => {
-    if(p5.mouseX < this.width && p5.mouseX > 0 && p5.mouseY < this.height && p5.mouseY > 0) {
+    if (
+      p5.mouseX < this.width &&
+      p5.mouseX > 0 &&
+      p5.mouseY < this.height &&
+      p5.mouseY > 0
+    ) {
       this.mouseX = p5.mouseX;
     }
     p5.background(0);
@@ -41,9 +46,9 @@ export default class Tree extends Component {
     } else {
       this.x -= 10;
     }
-    if (this.x > this.width/2) {
+    if (this.x > this.width / 2) {
       this.dir = false;
-    } else if (this.x < -this.width/2) {
+    } else if (this.x < -this.width / 2) {
       this.dir = true;
     }
   };

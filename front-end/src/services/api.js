@@ -17,9 +17,8 @@ async function signUp(signUpData) {
 }
 
 async function signIn(signInData) {
-  return baseAPI.post<{ token }>("/sign-in", signInData);
+  return baseAPI.post < { token } > ("/sign-in", signInData);
 }
-
 
 const api = {
   signUp,

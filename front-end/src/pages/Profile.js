@@ -1,20 +1,21 @@
-import styled from "styled-components";
-import Navbar from "../components/Navbar";
-import ConfigBar from "../components/ConfigBar";
 import { useState, useEffect, useContext } from "react";
-import axios from "axios";
-import UserContext from "../contexts/UserContext";
-import Mansory from "../components/Mansory";
 import { Circles } from "react-loader-spinner";
+import styled from "styled-components";
+import axios from "axios";
+import Navbar from "../components/Navbar";
+import Mansory from "../components/Mansory";
+import ConfigBar from "../components/ConfigBar";
+import UserContext from "../contexts/UserContext";
 
 function Profile() {
-  const [loading, setLoading] = useState(true);
   const URL = "https://rys-gaiasenses.herokuapp.com/post/user";
   //const URL = "http://localhost:5000/post/user";
-
-  const [posts, setPosts] = useState([]);
   const { userData } = useContext(UserContext);
+
+  const [loading, setLoading] = useState(true);
+  const [posts, setPosts] = useState([]);
   const [isShowingAlert, setShowingAlert] = useState(true);
+
   setTimeout(() => {
     setShowingAlert(false);
   }, 2000);
@@ -38,7 +39,7 @@ function Profile() {
   return (
     <Main>
       <Popup display={isShowingAlert}>
-          <p>History! See all your art works!</p>
+        <p>History! See all your art works!</p>
       </Popup>
       <ConfigBar />
       {loading ? (

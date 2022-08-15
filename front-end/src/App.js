@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Feed from "./pages/Feed";
 import Login from "./pages/Login";
@@ -8,7 +9,6 @@ import Create from "./pages/Create";
 import Favorite from "./pages/Favorite";
 import Profile from "./pages/Profile";
 import UserContext from "./contexts/UserContext";
-import { useState } from "react";
 
 import "./css/reset.css";
 import "./css/style.css";

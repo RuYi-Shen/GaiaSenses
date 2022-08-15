@@ -9,8 +9,8 @@ import logo from "../assets/gs_logo.png";
 
 export default function Register() {
   const URL = "https://rys-gaiasenses.herokuapp.com/auth/signup";
-
   const navigate = useNavigate();
+
   const [userInfo, setUserInfo] = useState({});
   const [disabled, setDisabled] = useState(false);
 

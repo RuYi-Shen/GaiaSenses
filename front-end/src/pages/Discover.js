@@ -1,21 +1,21 @@
-import styled from "styled-components";
-import Navbar from "../components/Navbar";
-import ConfigBar from "../components/ConfigBar";
 import { useState, useEffect, useContext } from "react";
-import axios from "axios";
-import UserContext from "../contexts/UserContext";
-import Mansory from "../components/Mansory";
 import { Circles } from "react-loader-spinner";
+import styled from "styled-components";
+import axios from "axios";
+import Navbar from "../components/Navbar";
+import Mansory from "../components/Mansory";
+import ConfigBar from "../components/ConfigBar";
+import UserContext from "../contexts/UserContext";
 
 function Discover() {
-  const [loading, setLoading] = useState(true);
   const URL = "https://rys-gaiasenses.herokuapp.com/post/new";
   //const URL = "http://localhost:5000/post/new";
-  
-
-  const [posts, setPosts] = useState([]);
   const { userData } = useContext(UserContext);
+
+  const [loading, setLoading] = useState(true);
+  const [posts, setPosts] = useState([]);
   const [isShowingAlert, setShowingAlert] = useState(true);
+
   setTimeout(() => {
     setShowingAlert(false);
   }, 2000);
@@ -39,11 +39,13 @@ function Discover() {
   return (
     <Main>
       <Popup display={isShowingAlert}>
-          <p>Discover! Find out our newest posts!</p>
+        <p>Discover! Find out our newest posts!</p>
       </Popup>
       <ConfigBar />
       {loading ? (
-        <div className="noPost"><Circles color="#00bcd4" /></div>
+        <div className="noPost">
+          <Circles color="#00bcd4" />
+        </div>
       ) : posts.length > 0 ? (
         <Mansory posts={posts} />
       ) : (

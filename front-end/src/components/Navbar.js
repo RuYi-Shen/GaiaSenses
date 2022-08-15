@@ -1,6 +1,6 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useState, useEffect } from "react";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -12,7 +12,8 @@ function Navbar() {
 
   return (
     <Nav>
-      <div id="feed"
+      <div
+        id="feed"
         onClick={() => {
           setPage("/feed");
           navigate("/feed");
@@ -24,7 +25,8 @@ function Navbar() {
           <ion-icon name="podium-outline"></ion-icon>
         )}
       </div>
-      <div id="discover"
+      <div
+        id="discover"
         onClick={() => {
           setPage("/discover");
           navigate("/discover");
@@ -36,7 +38,8 @@ function Navbar() {
           <ion-icon name="search-outline"></ion-icon>
         )}
       </div>
-      <div id="create"
+      <div
+        id="create"
         onClick={() => {
           setPage("/create");
           navigate("/create");
@@ -48,7 +51,8 @@ function Navbar() {
           <ion-icon name="add-circle-outline"></ion-icon>
         )}
       </div>
-      <div id="favorite"
+      <div
+        id="favorite"
         onClick={() => {
           setPage("/favorite");
           navigate("/favorite");
@@ -60,7 +64,8 @@ function Navbar() {
           <ion-icon name="heart-outline"></ion-icon>
         )}
       </div>
-      <div id="profile"
+      <div
+        id="profile"
         onClick={() => {
           setPage("/profile");
           navigate("/profile");

@@ -1,11 +1,13 @@
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useState, useEffect } from "react";
 
 function ShareOptions({ open }) {
   return (
     <Div open={open}>
-      <div onClick={() => window.alert('Coming soon, please try to share via whatsapp')}>
+      <div
+        onClick={() =>
+          window.alert("Coming soon, please try to share via whatsapp")
+        }
+      >
         <ion-icon name="logo-instagram"></ion-icon>
       </div>
       <div>
@@ -16,10 +18,18 @@ function ShareOptions({ open }) {
           <ion-icon name="logo-whatsapp"></ion-icon>
         </a>
       </div>
-      <div onClick={() => window.alert('Coming soon, please try to share via whatsapp')}>
+      <div
+        onClick={() =>
+          window.alert("Coming soon, please try to share via whatsapp")
+        }
+      >
         <ion-icon name="logo-twitter"></ion-icon>
       </div>
-      <div onClick={() => window.alert('Coming soon, please try to share via whatsapp')}>
+      <div
+        onClick={() =>
+          window.alert("Coming soon, please try to share via whatsapp")
+        }
+      >
         <ion-icon name="mail-outline"></ion-icon>
       </div>
     </Div>

@@ -1,16 +1,16 @@
+import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { usePopperTooltip } from "react-popper-tooltip";
 import "react-popper-tooltip/dist/styles.css";
-import { useState, useEffect, useContext } from "react";
 import UserContext from "../contexts/UserContext";
-import axios from "axios";
 
 export default function Like({ postId, likes }) {
   const URL = "https://rys-gaiasenses.herokuapp.com/like";
   const { userData } = useContext(UserContext);
+
   const [infoText, setInfoText] = useState("no one has liked this post yet");
   const [likesInfo, setLikesInfo] = useState(likes);
-
 
   const {
     getArrowProps,
@@ -24,10 +24,14 @@ export default function Like({ postId, likes }) {
     e.stopPropagation();
     if (!likesInfo.liked) {
       let aux = [...likesInfo.users];
-      aux.push({name: userData.name});
+      aux.push({ name: userData.name });
       setLikesInfo({ liked: true, count: likesInfo.count + 1, users: aux });
       axios
-        .post(`${URL}/${postId}`, {}, { headers: { Authorization: `Bearer ${userData.token}` } })
+        .post(
+          `${URL}/${postId}`,
+          {},
+          { headers: { Authorization: `Bearer ${userData.token}` } }
+        )
         .then((response) => {
           console.log(response);
         })
@@ -35,9 +39,11 @@ export default function Like({ postId, likes }) {
     } else {
       let aux = [...likesInfo.users];
       aux.shift();
-      setLikesInfo({ liked: false, count: likesInfo.count - 1, users: aux});
+      setLikesInfo({ liked: false, count: likesInfo.count - 1, users: aux });
       axios
-        .delete(`${URL}/${postId}`, { headers: { Authorization: `Bearer ${userData.token}` } })
+        .delete(`${URL}/${postId}`, {
+          headers: { Authorization: `Bearer ${userData.token}` },
+        })
         .then((response) => {
           console.log(response);
         })
@@ -60,12 +66,16 @@ export default function Like({ postId, likes }) {
           likesInfo.count * 1 - 2
         } other people`
       );
-    }// eslint-disable-next-line
+    } // eslint-disable-next-line
   }, [likesInfo.users]);
 
   return (
     <>
-      <Heart onClick={(e) => handleLike(e)} liked={likesInfo.liked} ref={setTriggerRef}>
+      <Heart
+        onClick={(e) => handleLike(e)}
+        liked={likesInfo.liked}
+        ref={setTriggerRef}
+      >
         {likesInfo.liked ? (
           <ion-icon name="heart"></ion-icon>
         ) : (

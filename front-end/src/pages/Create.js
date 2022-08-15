@@ -1,14 +1,16 @@
-import styled from "styled-components";
-import Tree from "../components/Tree.js";
 import { useEffect, useState, useContext, useCallback } from "react";
-import WeatherBar from "../components/WeatherBar.js";
-import Navbar from "../components/Navbar";
-import ConfigBar from "../components/ConfigBar.js";
-import ChaosTree from "../components/ChaosTree.js";
+import styled from "styled-components";
 import axios from "axios";
+import Tree from "../components/Tree.js";
+import Navbar from "../components/Navbar";
 import UserContext from "../contexts/UserContext";
+import ChaosTree from "../components/ChaosTree.js";
+import ConfigBar from "../components/ConfigBar.js";
+import WeatherBar from "../components/WeatherBar.js";
 
 function Create() {
+  const URL = "https://rys-gaiasenses.herokuapp.com/post/";
+  const { userData } = useContext(UserContext);
   const [weather, setWeather] = useState({});
   const [treeColor, setTreeColor] = useState("#FFFFFF");
   const [width, setWidth] = useState(window.screen.availWidth);
@@ -19,9 +21,8 @@ function Create() {
   const [composeUrl, setComposeUrl] = useState("");
   const [contentText, setContentText] = useState("");
   const [artType, setArtType] = useState("chaos");
-  const { userData } = useContext(UserContext);
-  const URL = "https://rys-gaiasenses.herokuapp.com/post/";
   const [isShowingAlert, setShowingAlert] = useState(true);
+
   setTimeout(() => {
     setShowingAlert(false);
   }, 2000);
@@ -200,12 +201,12 @@ const Description = styled.div`
   margin-top: 20px;
   margin-bottom: 70px;
 
-  p{
+  p {
     margin: 10px 0;
   }
   form {
     width: 100%;
-    input{
+    input {
       width: 100%;
     }
 

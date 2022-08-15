@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
-import axios from "axios";
 
 function WeatherData({ weather }) {
   const ICONURL = "http://openweathermap.org/img/wn/";
@@ -8,7 +6,10 @@ function WeatherData({ weather }) {
 
   return (
     <Weather>
-      <img src={`${ICONURL}${weather.weather[0].icon}@4x.png`}></img>
+      <img
+        src={`${ICONURL}${weather.weather[0].icon}@4x.png`}
+        alt="weather-icon"
+      ></img>
       <p>{weather.weather[0].description.toUpperCase()}</p>
       <p>{weather.name}</p>
       <div className="info">
@@ -56,7 +57,7 @@ const Weather = styled.div`
     width: 100%;
   }
 
-  p{
+  p {
     margin: 10px;
   }
 `;

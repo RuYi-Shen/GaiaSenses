@@ -1,14 +1,14 @@
+import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import Navbar from "../components/Navbar";
 import ConfigBar from "../components/ConfigBar";
-import { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import UserContext from "../contexts/UserContext";
 
 function Create() {
   const URL = "https://rys-gaiasenses.herokuapp.com/post/aws";
-  const [posts, setPosts] = useState([]);
   const { userData } = useContext(UserContext);
+  const [posts, setPosts] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [isSelected, setIsSelected] = useState(false);
   const [uploadSucess, setUploadSucess] = useState(false);
@@ -25,15 +25,14 @@ function Create() {
       const formData = new FormData();
       formData.append("file", selectedFile, selectedFile.name);
       console.log(formData, selectedFile, selectedFile.name);
-  
 
       axios
-      .post(URL, formData, {
-        headers: {
-          "Content-Type": "form-data",
-          Authorization: `Bearer ${userData.token}`,
-        },
-      })
+        .post(URL, formData, {
+          headers: {
+            "Content-Type": "form-data",
+            Authorization: `Bearer ${userData.token}`,
+          },
+        })
         .then((res) => {
           setUploadSucess(true);
           setShowSpinner(false);

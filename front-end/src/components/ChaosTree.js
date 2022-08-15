@@ -4,7 +4,7 @@ import Sketch from "react-p5";
 class Particle {
   constructor(x, y, size, p5, img) {
     this.pos = p5.createVector(x, y);
-    this.tgt = p5.createVector(p5.random(-1,1) + x, p5.random(-1,1) + y);
+    this.tgt = p5.createVector(p5.random(-1, 1) + x, p5.random(-1, 1) + y);
     this.size = size;
     this.col = img.get(x, y);
   }
@@ -22,7 +22,10 @@ class ChaosTree extends Component {
   };
 
   setup = (p5, parentRef) => {
-    this.img.resize(this.props.width || window.screen.availWidth, this.props.height || window.screen.availHeight - 100);
+    this.img.resize(
+      this.props.width || window.screen.availWidth,
+      this.props.height || window.screen.availHeight - 100
+    );
     p5.createCanvas(this.img.width, this.img.height).parent(parentRef);
     p5.image(this.img, 0, 0);
     p5.frameRate(10);
@@ -39,7 +42,7 @@ class ChaosTree extends Component {
             Math.pow(size / 2 + p.size / 2 - 2, 2)
         )
       )
-      this.particles.push(new Particle(x, y, size, p5, this.img));
+        this.particles.push(new Particle(x, y, size, p5, this.img));
     }
 
     p5.noStroke();
@@ -49,18 +52,26 @@ class ChaosTree extends Component {
     p5.image(this.img, 0, 0);
 
     for (const particle of this.particles) {
-      if(p5.mouseX < this.img.width && p5.mouseX > 0 && p5.mouseY < this.img.height && p5.mouseY > 0) {
+      if (
+        p5.mouseX < this.img.width &&
+        p5.mouseX > 0 &&
+        p5.mouseY < this.img.height &&
+        p5.mouseY > 0
+      ) {
         this.x = p5.mouseX;
         this.y = p5.mouseY;
       }
-      
+
       p5.fill(particle.col);
       const t =
           1 -
           5e-4 *
             (Math.pow(particle.pos.x - this.x, 2) +
               Math.pow(particle.pos.y - this.y, 2)),
-        p = p5.createVector((1-t) * particle.pos.x + particle.tgt.x * t, (1-t) * particle.pos.y + particle.tgt.y * t);
+        p = p5.createVector(
+          (1 - t) * particle.pos.x + particle.tgt.x * t,
+          (1 - t) * particle.pos.y + particle.tgt.y * t
+        );
       p5.circle(p.x, p.y, particle.size);
     }
   };
