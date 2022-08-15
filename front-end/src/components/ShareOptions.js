@@ -10,6 +10,13 @@ function ShareOptions({ open }) {
       >
         <ion-icon name="logo-instagram"></ion-icon>
       </div>
+      <div
+        onClick={() =>
+          window.alert("Coming soon, please try to share via whatsapp")
+        }
+      >
+        <ion-icon name="logo-twitter"></ion-icon>
+      </div>
       <div>
         <a
           href="whatsapp://send?text=Join the GaiaSenses community! access: https://gaia-senses.vercel.app/"
@@ -17,13 +24,6 @@ function ShareOptions({ open }) {
         >
           <ion-icon name="logo-whatsapp"></ion-icon>
         </a>
-      </div>
-      <div
-        onClick={() =>
-          window.alert("Coming soon, please try to share via whatsapp")
-        }
-      >
-        <ion-icon name="logo-twitter"></ion-icon>
       </div>
       <div
         onClick={() =>
