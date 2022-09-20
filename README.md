@@ -1,5 +1,5 @@
 # GaiaSenses
-Mobile application for generating audiovisual compositions from planetary platforms
+Mobile application for generating audiovisual compositions from planetary platforms 
 
 ## Our Mission
 
