@@ -7,6 +7,7 @@ import Discover from "./pages/Discover";
 import Create from "./pages/Create";
 import Favorite from "./pages/Favorite";
 import Profile from "./pages/Profile";
+import Sample from "./pages/Sample";
 import UserContext from "./contexts/UserContext";
 import { useState } from "react";
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/favorite" element={<Favorite />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/create" element={<Create />} />
+          <Route path="/sample" element={<Sample />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
