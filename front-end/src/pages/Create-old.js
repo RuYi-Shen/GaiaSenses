@@ -6,7 +6,7 @@ import ConfigBar from "../components/ConfigBar";
 import UserContext from "../contexts/UserContext";
 
 function Create() {
-  const URL = "https://rys-gaiasenses.herokuapp.com/post/aws";
+  const URL = "https://gaiasenses-production.up.railway.app/post/aws";
   const { userData } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);

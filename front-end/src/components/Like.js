@@ -6,7 +6,7 @@ import "react-popper-tooltip/dist/styles.css";
 import UserContext from "../contexts/UserContext";
 
 export default function Like({ postId, likes }) {
-  const URL = "https://rys-gaiasenses.herokuapp.com/like";
+  const URL = "https://gaiasenses-production.up.railway.app/like";
   const { userData } = useContext(UserContext);
 
   const [infoText, setInfoText] = useState("no one has liked this post yet");

@@ -9,7 +9,7 @@ import ConfigBar from "../components/ConfigBar.js";
 import WeatherBar from "../components/WeatherBar.js";
 
 function Create() {
-  const URL = "https://rys-gaiasenses.herokuapp.com/post/";
+  const URL = "https://gaiasenses-production.up.railway.app/post/";
   const { userData } = useContext(UserContext);
   const [weather, setWeather] = useState({});
   const [treeColor, setTreeColor] = useState("#FFFFFF");

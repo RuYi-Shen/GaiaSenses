@@ -8,7 +8,7 @@ import ConfigBar from "../components/ConfigBar";
 import UserContext from "../contexts/UserContext";
 
 function Profile() {
-  const URL = "https://rys-gaiasenses.herokuapp.com/post/user";
+  const URL = "https://gaiasenses-production.up.railway.app/post/user";
   //const URL = "http://localhost:5000/post/user";
   const { userData } = useContext(UserContext);
 

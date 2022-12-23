@@ -8,7 +8,7 @@ import ConfigBar from "../components/ConfigBar";
 import UserContext from "../contexts/UserContext";
 
 function Feed() {
-  const URL = "https://rys-gaiasenses.herokuapp.com/post";
+  const URL = "https://gaiasenses-production.up.railway.app/post";
   //const URL = "http://localhost:5000/post";
   const { userData } = useContext(UserContext);
 
