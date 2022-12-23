@@ -9,7 +9,7 @@ import axios from "axios";
 import logo from "../assets/gs_logo.png";
 
 export default function Login() {
-  const URL = "https://rys-gaiasenses.herokuapp.com/auth/signin";
+  const URL = "https://gaiasenses-production.up.railway.app/auth/signin";
   const APIURL = "https://api.openweathermap.org/data/2.5/weather?";
   const APIKEY = "10428b1c951b8f8f17e6acde5957b88f";
   const { userData, setUserData, weather, setWeather } =

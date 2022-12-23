@@ -8,7 +8,7 @@ import ConfigBar from "../components/ConfigBar";
 import UserContext from "../contexts/UserContext";
 
 function Discover() {
-  const URL = "https://rys-gaiasenses.herokuapp.com/post/new";
+  const URL = "https://gaiasenses-production.up.railway.app/post/new";
   //const URL = "http://localhost:5000/post/new";
   const { userData } = useContext(UserContext);
 

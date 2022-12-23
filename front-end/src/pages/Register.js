@@ -8,7 +8,7 @@ import axios from "axios";
 import logo from "../assets/gs_logo.png";
 
 export default function Register() {
-  const URL = "https://rys-gaiasenses.herokuapp.com/auth/signup";
+  const URL = "https://gaiasenses-production.up.railway.app/auth/signup";
   const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState({});

@@ -6,7 +6,7 @@ import "react-popper-tooltip/dist/styles.css";
 import UserContext from "../contexts/UserContext";
 
 export default function Publish({ postId, published }) {
-  const URL = "https://rys-gaiasenses.herokuapp.com/post/publish";
+  const URL = "https://gaiasenses-production.up.railway.app/post/publish";
   const [publishState, setPublishState] = useState(published);
   const { userData } = useContext(UserContext);
 

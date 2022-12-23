@@ -8,7 +8,7 @@ import ConfigBar from "../components/ConfigBar";
 import UserContext from "../contexts/UserContext";
 
 function Favorite() {
-  const URL = "https://rys-gaiasenses.herokuapp.com/post/like";
+  const URL = "https://gaiasenses-production.up.railway.app/post/like";
   //const URL = "http://localhost:5000/post/like";
   const { userData } = useContext(UserContext);
 
