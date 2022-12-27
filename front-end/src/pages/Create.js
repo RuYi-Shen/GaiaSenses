@@ -17,7 +17,6 @@ function Create() {
   const [height, setHeight] = useState(window.screen.availHeight - 150);
   const [mobile, setMobile] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
-  const [inputUrl, setInputUrl] = useState("");
   const [composeUrl, setComposeUrl] = useState("");
   const [contentText, setContentText] = useState("");
   const [artType, setArtType] = useState("chaos");
@@ -103,10 +102,15 @@ function Create() {
     }
   }, [composeUrl]);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    setImageUrl(inputUrl);
-    setInputUrl("");
+  function handleImageChange(e) {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImageUrl(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   }
 
   function handleSave(e) {
@@ -128,18 +132,18 @@ function Create() {
             <option value="chaos">Chaos</option>
             <option value="weather-tree">Weather-Tree</option>
           </select>
-          <p>Insert a image url or use the default image:</p>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="url"
-              id="imageUrl"
-              placeholder="Image Url"
-              required
-              value={inputUrl}
-              onChange={(e) => setInputUrl(e.target.value)}
-            />
-            <button type="submit">Submit</button>
-          </form>
+          { artType === "chaos" &&
+            <>
+              <p>Upload an image file or use the default:</p>
+              <input
+                type="file"
+                id="imageUrl"
+                required
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+            </>
+          }
           <p>Insert your art description:</p>
           <Form onSubmit={handleSave}>
             <textarea
