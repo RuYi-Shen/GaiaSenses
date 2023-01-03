@@ -4,8 +4,8 @@ async function sendEmail(email: string, key: string) {
   if (process.env.MODE !== "test") {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const msg = {
-      to: email, // Change to your recipient
-      from: "r205612@dac.unicamp.br", // Change to your verified sender
+      to: email,
+      from: process.env.SENDER_EMAIL,
       subject: "Welcome to GaiaSenses! Confirm Your Email",
       text: "gaia senses",
       html: buildEmail(key),
