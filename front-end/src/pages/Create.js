@@ -1,13 +1,15 @@
 import { useEffect, useState, useContext, useCallback } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import Tree from "../components/Tree.js";
+
 import Navbar from "../components/Navbar";
 import UserContext from "../contexts/UserContext";
-import ChaosTree from "../components/ChaosTree.js";
 import ConfigBar from "../components/ConfigBar.js";
 import WeatherBar from "../components/WeatherBar.js";
+
+import ChaosTree from "../compositions/ChaosTree.js";
 import Lluvia from "../compositions/Lluvia.js";
+import Tree from "../compositions/Tree.js";
 
 function Create() {
   const URL = "https://gaiasenses-production.up.railway.app/post/";

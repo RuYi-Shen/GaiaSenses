@@ -1,3 +1,4 @@
+import React from 'react'
 import Sketch from "react-p5";
 
 const ELLIPSE_SIZE_MIN = 15;
