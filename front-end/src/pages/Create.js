@@ -7,11 +7,11 @@ import UserContext from "../contexts/UserContext";
 import ChaosTree from "../components/ChaosTree.js";
 import ConfigBar from "../components/ConfigBar.js";
 import WeatherBar from "../components/WeatherBar.js";
+import Lluvia from "../compositions/Lluvia.js";
 
 function Create() {
   const URL = "https://gaiasenses-production.up.railway.app/post/";
-  const { userData } = useContext(UserContext);
-  const [weather, setWeather] = useState({});
+  const { userData, weather } = useContext(UserContext);
   const [treeColor, setTreeColor] = useState("#FFFFFF");
   const [width, setWidth] = useState(window.screen.availWidth);
   const [height, setHeight] = useState(window.screen.availHeight - 150);
@@ -27,9 +27,6 @@ function Create() {
   }, 2000);
 
   useEffect(() => {
-    if (localStorage.getItem("weather")) {
-      setWeather(JSON.parse(localStorage.getItem("weather")));
-    }
     if (width > height) {
       setWidth(height);
     } else {
@@ -53,7 +50,7 @@ function Create() {
           imageUrl={imageUrl || "chaostree.jpg"}
         />
       );
-    } else {
+    } else if (artType === "weather-tree") {
       return (
         <>
           <Tree color={treeColor || "#FFFFFF"} width={width} height={height} />;
@@ -61,7 +58,10 @@ function Create() {
         </>
       );
     }
-  }, [artType, treeColor, width, height, imageUrl]);
+    else {
+      return <Lluvia width={width} height={height} rain={weather.rain}/>
+    }
+  }, [artType, treeColor, width, height, imageUrl, weather]);
 
   const weatherColor = {
     "clear sky": "#FF0000",
@@ -131,6 +131,7 @@ function Create() {
           <select value={artType} onChange={(e) => setArtType(e.target.value)}>
             <option value="chaos">Chaos</option>
             <option value="weather-tree">Weather-Tree</option>
+            <option value="lluvia">Lluvia</option>
           </select>
           { artType === "chaos" &&
             <>
