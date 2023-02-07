@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Form from "../components/Form";
 
 import logo from "../assets/gs_logo.png";
-import { useAuth } from "../contexts/UserContext";
+import useAuth from "../hooks/auth";
 
 export default function Register() {
   const { authActions } = useAuth();

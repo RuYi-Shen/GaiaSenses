@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import WeatherData from "./WeatherData";
 import ShareOptions from "./ShareOptions.js";
-import { useAuth } from "../contexts/UserContext";
+import useAuth from "../hooks/auth";
 import useWeather from "../hooks/weather";
 
 function ConfigBar() {

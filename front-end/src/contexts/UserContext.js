@@ -1,6 +1,6 @@
-import { createContext, useContext, useState } from "react";
-import authService from "../services/auth";
+import { createContext, useState } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+import useAuth from "../hooks/auth";
 
 const UserContext = createContext();
 
@@ -14,35 +14,6 @@ function AuthProvider({ children }) {
   )
 }
 
-function useAuth() {
-  const { userData, setUserData } = useContext(UserContext);
-
-  const authActions = {
-    signUp: (userInfo) => authService.signUp(userInfo),
-    signIn: async (userInfo) => {
-      const user = await authService.signIn(userInfo);
-      authService.setAuthorization(user.token);
-      setUserData(user);
-      return user;
-    },
-    signOut: () => {
-      authService.signOut();
-      authService.setAuthorization(null);
-      setUserData({});
-    },
-    restore: () => {
-      const user = authService.localCredentials();
-      authService.setAuthorization(user.token);
-      setUserData(user);
-    },
-    hasLocalCredentials: () => {
-      return authService.localCredentials() !== null;
-    }
-  }
-
-  return { userData, authActions };
-}
-
 function RequireAuth({ children }) {
   const { userData } = useAuth();
   const location = useLocation();
@@ -53,4 +24,4 @@ function RequireAuth({ children }) {
   return children ? children : <Outlet />;
 }
 
-export { AuthProvider, RequireAuth, useAuth };
+export { AuthProvider, RequireAuth, UserContext };

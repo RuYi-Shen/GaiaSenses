@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { usePopperTooltip } from "react-popper-tooltip";
 import "react-popper-tooltip/dist/styles.css";
-import { useAuth } from "../contexts/UserContext";
+import useAuth from "../hooks/auth";
 import postService from "../services/post";
 
 export default function Like({ postId, likes }) {
