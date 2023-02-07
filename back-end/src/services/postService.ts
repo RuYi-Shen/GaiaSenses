@@ -59,6 +59,14 @@ async function getLikedPosts(userId: number) {
   );
 }
 
+async function deletePost(postId: number, userId: number) {
+  const post = await postRepository.findById(postId);
+  if (post.userId !== userId) {
+    throw new Error("You can't delete this post");
+  }
+  return await postRepository.deleteById(postId);
+}
+
 export const postService = {
   createPost,
   publishPost,
@@ -66,4 +74,5 @@ export const postService = {
   getBestPosts,
   getUserPosts,
   getLikedPosts,
+  deletePost,
 };

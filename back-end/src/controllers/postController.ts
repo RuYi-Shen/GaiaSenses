@@ -43,6 +43,14 @@ async function getLikedPosts(req: Request, res: Response) {
   res.json(posts);
 }
 
+async function deletePost(req: Request, res: Response) {
+  const postId = +req.params.postId;
+  const userId = res.locals.user.id;
+
+  await postService.deletePost(postId, userId);
+  res.sendStatus(200);
+}
+
 export const postController = {
   createPost,
   publishPost,
@@ -50,4 +58,5 @@ export const postController = {
   getNewPosts,
   getUserPosts,
   getLikedPosts,
+  deletePost,
 };

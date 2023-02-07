@@ -20,5 +20,6 @@ postRouter.get("/", postController.getPosts);
 postRouter.get("/new", postController.getNewPosts);
 postRouter.get("/user", postController.getUserPosts);
 postRouter.get("/like", postController.getLikedPosts);
+postRouter.delete("/:postId", postController.deletePost);
 
 export default postRouter;

@@ -99,6 +99,12 @@ async function findLiked(userId: number) {
   });
 }
 
+async function deleteById(id: number) {
+  return await prisma.post.deleteMany({
+    where: { id }
+  });
+}
+
 export const postRepository = {
   create,
   publish,
@@ -107,4 +113,5 @@ export const postRepository = {
   findLastWeek,
   findUser,
   findLiked,
+  deleteById,
 };
