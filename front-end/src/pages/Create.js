@@ -88,7 +88,7 @@ function Create() {
           window.alert("Image successfully saved");
           setContentText("");
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
     }
   }, [composeUrl]);
 

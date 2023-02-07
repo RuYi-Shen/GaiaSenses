@@ -20,8 +20,7 @@ export default function Publish({ postId, published }) {
     if (!publishState) {
       setPublishState(true);
       postService.publish(postId)
-        .then((res) => console.log(res))
-        .catch((e) => console.log(e));
+        .catch((e) => console.error(e));
     }
   }
 

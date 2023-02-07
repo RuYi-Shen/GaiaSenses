@@ -23,7 +23,7 @@ export default function Register() {
           navigate("/");
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
           alert(err.response.data);
           setDisabled(false);
         });

@@ -33,7 +33,6 @@ function useAuth() {
     restore: () => {
       const user = authService.localCredentials();
       authService.setAuthorization(user.token);
-      console.log('restored: ', user.token);
       setUserData(user);
     },
     hasLocalCredentials: () => {

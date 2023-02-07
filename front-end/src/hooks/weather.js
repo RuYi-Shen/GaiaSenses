@@ -28,24 +28,20 @@ export default function useWeather() {
   const [weather, setWeather] = useState({});
 
   useEffect(() => {
-    console.log(cache);
     if (cache['weather']) {
-      console.log('cached');
       setWeather(cache['weather']);
     }
     else {
-      console.log('not cached');
       getLocalWeather()
         .then((res) => {
           cache['weather'] = res;
           setWeather(res);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
     }
   }, [weather]);
 
   const refreshWeather = () => {
-    console.log('refreshed');
     cache['weather'] = null;
     setWeather({});
   }

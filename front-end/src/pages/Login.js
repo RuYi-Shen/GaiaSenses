@@ -22,18 +22,15 @@ export default function Login() {
     if (authActions.hasLocalCredentials()) {
       setDisabled(true);
       authActions.restore();
-      console.log('restoring');
     }
   }, []);
 
   useEffect(() => {
     if (Object.keys(userInfo).length !== 0) {
       setDisabled(true);
-      console.log('signing in')
       authActions.signIn(userInfo)
-        .then(() => console.log('signed in'))
         .catch((err) => {
-          console.log(err);
+          console.error(err);
           alert(err.response.data);
           setDisabled(false);
         });

@@ -26,19 +26,13 @@ export default function Like({ postId, likes }) {
       aux.push({ name: userData.name });
       setLikesInfo({ liked: true, count: likesInfo.count + 1, users: aux });
       postService.like(postId)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((e) => console.log(e));
+        .catch((e) => console.error(e));
     } else {
       let aux = [...likesInfo.users];
       aux.shift();
       setLikesInfo({ liked: false, count: likesInfo.count - 1, users: aux });
       postService.removeLike(postId)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((e) => console.log(e));
+        .catch((e) => console.error(e));
     }
   }
 
