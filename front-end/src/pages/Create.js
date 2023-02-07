@@ -1,19 +1,18 @@
-import { useEffect, useState, useContext, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
-import axios from "axios";
 
 import Navbar from "../components/Navbar";
-import UserContext from "../contexts/UserContext";
+import { useAuth } from "../contexts/UserContext";
 import ConfigBar from "../components/ConfigBar.js";
 import WeatherBar from "../components/WeatherBar.js";
 
 import ChaosTree from "../compositions/ChaosTree.js";
 import Lluvia from "../compositions/Lluvia.js";
 import Tree from "../compositions/Tree.js";
+import postService from "../services/post";
 
 function Create() {
-  const URL = "https://gaiasenses-production.up.railway.app/post/";
-  const { userData, weather } = useContext(UserContext);
+  const { weather } = useAuth();
   const [treeColor, setTreeColor] = useState("#FFFFFF");
   const [width, setWidth] = useState(window.screen.availWidth);
   const [height, setHeight] = useState(window.screen.availHeight - 150);
@@ -84,23 +83,12 @@ function Create() {
 
   useEffect(() => {
     if (composeUrl) {
-      axios
-        .post(
-          URL,
-          { url: composeUrl, content: contentText || " " },
-          {
-            headers: {
-              Authorization: "Bearer " + userData.token,
-            },
-          }
-        )
-        .then((res) => {
+      postService.create({ url: composeUrl, content: contentText || "" })
+        .then(() => {
           window.alert("Image successfully saved");
           setContentText("");
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => console.log(err));
     }
   }, [composeUrl]);
 

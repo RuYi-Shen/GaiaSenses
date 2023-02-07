@@ -1,76 +1,48 @@
-import { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import UserContext from "../contexts/UserContext";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../contexts/UserContext";
 
 import styled from "styled-components";
 import Form from "../components/Form";
-import axios from "axios";
 
 import logo from "../assets/gs_logo.png";
 
 export default function Login() {
-  const URL = "https://gaiasenses-production.up.railway.app/auth/signin";
-  const APIURL = "https://api.openweathermap.org/data/2.5/weather?";
-  const APIKEY = "10428b1c951b8f8f17e6acde5957b88f";
-  const { userData, setUserData, weather, setWeather } =
-    useContext(UserContext);
+  const { userData, authActions, weather } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/feed";
 
   const [userInfo, setUserInfo] = useState({});
   const [disabled, setDisabled] = useState(false);
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
-
-  function getUserLocation() {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude);
-      });
-    }
-  }
-
-  function getLocationWeather() {
-    axios
-      .get(`${APIURL}lat=${latitude}&lon=${longitude}&appid=${APIKEY}`)
-      .then((response) => {
-        setWeather(response.data);
-      })
-      .catch((err) => console.log(err));
-  }
 
   useEffect(() => {
-    if (longitude !== 0 && latitude !== 0) getLocationWeather();
-  }, [latitude, longitude]);
-
-  useEffect(() => {
-    if (localStorage.getItem("userData")) {
-      setUserData(JSON.parse(localStorage.getItem("userData")));
+    if (authActions.hasLocalCredentials()) {
       setDisabled(true);
-      getUserLocation();
+      authActions.restore();
+      console.log('restoring');
     }
+  }, []);
+
+  useEffect(() => {
     if (Object.keys(userInfo).length !== 0) {
       setDisabled(true);
-      axios
-        .post(URL, userInfo)
-        .then((response) => {
-          localStorage.setItem("userData", JSON.stringify(response.data));
-          setUserData(response.data);
-          getUserLocation();
-        })
-        .catch((error) => {
-          console.log(error);
-          alert(error.response.data);
+      console.log('signing in')
+      authActions.signIn(userInfo)
+        .then(() => console.log('signed in'))
+        .catch((err) => {
+          console.log(err);
+          alert(err.response.data);
           setDisabled(false);
         });
     }
-  }, [userInfo]);
+  }, [authActions, userInfo]);
 
   useEffect(() => {
     if (weather.weather && userData.name) {
-      navigate("/feed");
+      navigate(from);
     }
-  }, [weather]);
+  }, [weather, userData, navigate, from]);
 
   return (
     <Main>

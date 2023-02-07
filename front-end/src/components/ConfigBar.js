@@ -1,15 +1,14 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import WeatherData from "./WeatherData";
 import ShareOptions from "./ShareOptions.js";
-import UserContext from "../contexts/UserContext";
+import { useAuth } from "../contexts/UserContext";
 
 function ConfigBar() {
+  const { userData, authActions, weather, setWeather } = useAuth()
   const navigate = useNavigate();
-  const { userData, setUserData, weather, setWeather } =
-    useContext(UserContext);
 
   const [openConfig, setOpenConfig] = useState(false);
   const [openShare, setOpenShare] = useState(false);
@@ -94,8 +93,7 @@ function ConfigBar() {
         <div
           className="logout"
           onClick={() => {
-            localStorage.clear();
-            setUserData({});
+            authActions.signOut();
             navigate("/");
           }}
         >

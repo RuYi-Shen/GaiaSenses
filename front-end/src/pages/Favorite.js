@@ -1,17 +1,12 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { Circles } from "react-loader-spinner";
 import styled from "styled-components";
-import axios from "axios";
 import Navbar from "../components/Navbar";
 import Mansory from "../components/Mansory";
 import ConfigBar from "../components/ConfigBar";
-import UserContext from "../contexts/UserContext";
+import postService from "../services/post";
 
 function Favorite() {
-  const URL = "https://gaiasenses-production.up.railway.app/post/like";
-  //const URL = "http://localhost:5000/post/like";
-  const { userData } = useContext(UserContext);
-
   const [loading, setLoading] = useState(true);
   const [isShowingAlert, setShowingAlert] = useState(true);
   const [posts, setPosts] = useState([]);
@@ -21,20 +16,13 @@ function Favorite() {
   }, 2000);
 
   useEffect(() => {
-    axios
-      .get(URL, {
-        headers: {
-          Authorization: "Bearer " + userData.token,
-        },
-      })
+    postService.getLiked()
       .then((res) => {
         setPosts(res.data);
         setLoading(false);
       })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [userData.token]);
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <Main>

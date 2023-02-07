@@ -3,30 +3,28 @@ import { Link, useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 import Form from "../components/Form";
-import axios from "axios";
 
 import logo from "../assets/gs_logo.png";
+import { useAuth } from "../contexts/UserContext";
 
 export default function Register() {
-  const URL = "https://gaiasenses-production.up.railway.app/auth/signup";
+  const { authActions } = useAuth();
   const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState({});
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
-    localStorage.clear();
     if (Object.keys(userInfo).length !== 0) {
       setDisabled(true);
-      axios
-        .post(URL, userInfo)
-        .then((response) => {
-          alert(response.data);
+      authActions.signUp(userInfo)
+        .then((res) => {
+          alert(res);
           navigate("/");
         })
-        .catch((error) => {
-          console.log(error);
-          alert(error.response.data);
+        .catch((err) => {
+          console.log(err);
+          alert(err.response.data);
           setDisabled(false);
         });
     }

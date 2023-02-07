@@ -1,14 +1,11 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import { usePopperTooltip } from "react-popper-tooltip";
 import "react-popper-tooltip/dist/styles.css";
-import UserContext from "../contexts/UserContext";
+import postService from "../services/post";
 
 export default function Publish({ postId, published }) {
-  const URL = "https://gaiasenses-production.up.railway.app/post/publish";
   const [publishState, setPublishState] = useState(published);
-  const { userData } = useContext(UserContext);
 
   const {
     getArrowProps,
@@ -21,12 +18,9 @@ export default function Publish({ postId, published }) {
   function handleLike(e) {
     e.stopPropagation();
     if (!publishState) {
-        setPublishState(true);
-        axios
-        .post(`${URL}/${postId}`, {}, { headers: { Authorization: `Bearer ${userData.token}` } })
-        .then((response) => {
-            console.log(response);
-        })
+      setPublishState(true);
+      postService.publish(postId)
+        .then((res) => console.log(res))
         .catch((e) => console.log(e));
     }
   }
@@ -38,7 +32,7 @@ export default function Publish({ postId, published }) {
         {publishState ? (
           <ion-icon name="cloud-upload"></ion-icon>
         ) : (
-            <ion-icon name="cloud-upload-outline"></ion-icon>
+          <ion-icon name="cloud-upload-outline"></ion-icon>
         )}
       </Cloud>
       {visible && (
@@ -57,7 +51,7 @@ export default function Publish({ postId, published }) {
 const Cloud = styled.div`
   width: 50px;
   height: 50px;
-  
+
   position: absolute;
   top: 0;
   left: 0;

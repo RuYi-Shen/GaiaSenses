@@ -1,13 +1,12 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import { usePopperTooltip } from "react-popper-tooltip";
 import "react-popper-tooltip/dist/styles.css";
-import UserContext from "../contexts/UserContext";
+import { useAuth } from "../contexts/UserContext";
+import postService from "../services/post";
 
 export default function Like({ postId, likes }) {
-  const URL = "https://gaiasenses-production.up.railway.app/like";
-  const { userData } = useContext(UserContext);
+  const { userData } = useAuth()
 
   const [infoText, setInfoText] = useState("no one has liked this post yet");
   const [likesInfo, setLikesInfo] = useState(likes);
@@ -26,26 +25,18 @@ export default function Like({ postId, likes }) {
       let aux = [...likesInfo.users];
       aux.push({ name: userData.name });
       setLikesInfo({ liked: true, count: likesInfo.count + 1, users: aux });
-      axios
-        .post(
-          `${URL}/${postId}`,
-          {},
-          { headers: { Authorization: `Bearer ${userData.token}` } }
-        )
-        .then((response) => {
-          console.log(response);
+      postService.like(postId)
+        .then((res) => {
+          console.log(res);
         })
         .catch((e) => console.log(e));
     } else {
       let aux = [...likesInfo.users];
       aux.shift();
       setLikesInfo({ liked: false, count: likesInfo.count - 1, users: aux });
-      axios
-        .delete(`${URL}/${postId}`, {
-          headers: { Authorization: `Bearer ${userData.token}` },
-        })
-        .then((response) => {
-          console.log(response);
+      postService.removeLike(postId)
+        .then((res) => {
+          console.log(res);
         })
         .catch((e) => console.log(e));
     }
