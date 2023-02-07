@@ -6,9 +6,11 @@ import styled from "styled-components";
 import Form from "../components/Form";
 
 import logo from "../assets/gs_logo.png";
+import useWeather from "../hooks/weather";
 
 export default function Login() {
-  const { userData, authActions, weather } = useAuth();
+  const { userData, authActions } = useAuth();
+  const { weather } = useWeather();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/feed";

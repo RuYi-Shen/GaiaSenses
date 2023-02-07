@@ -1,44 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import axios from "axios";
 import WeatherData from "./WeatherData";
 import ShareOptions from "./ShareOptions.js";
 import { useAuth } from "../contexts/UserContext";
+import useWeather from "../hooks/weather";
 
 function ConfigBar() {
-  const { userData, authActions, weather, setWeather } = useAuth()
+  const { userData, authActions } = useAuth()
   const navigate = useNavigate();
+
+  const { weather, refreshWeather } = useWeather();
 
   const [openConfig, setOpenConfig] = useState(false);
   const [openShare, setOpenShare] = useState(false);
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
-
-  const APIKEY = "10428b1c951b8f8f17e6acde5957b88f";
-  const APIURL = "https://api.openweathermap.org/data/2.5/weather?";
-
-  function getUserLocation() {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        setLatitude(position.coords.latitude);
-        setLongitude(position.coords.longitude);
-      });
-    }
-  }
-
-  function getLocationWeather() {
-    axios
-      .get(`${APIURL}lat=${latitude}&lon=${longitude}&appid=${APIKEY}`)
-      .then((response) => {
-        setWeather(response.data);
-      })
-      .catch((err) => console.log(err));
-  }
-
-  useEffect(() => {
-    if (longitude !== 0 && latitude !== 0) getLocationWeather(); // eslint-disable-next-line
-  }, [latitude, longitude]);
 
   return (
     <>
@@ -80,12 +55,7 @@ function ConfigBar() {
         )}
         <div
           className="refresh"
-          onClick={() => {
-            setWeather({});
-            setLatitude(0);
-            setLongitude(0);
-            getUserLocation();
-          }}
+          onClick={() => refreshWeather()}
         >
           <ion-icon name="refresh"></ion-icon>
         </div>

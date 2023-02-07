@@ -1,51 +1,21 @@
-import { createContext, useEffect, useContext, useState } from "react";
-import axios from "axios";
+import { createContext, useContext, useState } from "react";
 import authService from "../services/auth";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-const APIURL = "https://api.openweathermap.org/data/2.5/weather?";
-const APIKEY = "10428b1c951b8f8f17e6acde5957b88f";
-
-
 const UserContext = createContext();
-
-function getLocalWeather() {
-  return new Promise((resolve, reject) => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-
-        axios.get(`${APIURL}lat=${lat}&lon=${lon}&appid=${APIKEY}`)
-          .then((response) => resolve(response.data))
-          .catch((err) => reject(err));
-      }, (err) => reject(err));
-    }
-    else {
-      reject('Geolocation API not supported');
-    }
-  });
-}
 
 function AuthProvider({ children }) {
   const [userData, setUserData] = useState({});
-  const [weather, setWeather] = useState({});
-
-  useEffect(() => {
-    getLocalWeather()
-      .then((weather) => setWeather(weather))
-      .catch((err) => console.log(err));
-  }, []);
 
   return (
-    <UserContext.Provider value={{ userData, setUserData, weather, setWeather }}>
+    <UserContext.Provider value={{ userData, setUserData }}>
       {children}
     </UserContext.Provider>
   )
 }
 
 function useAuth() {
-  const { userData, setUserData, weather, setWeather } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
 
   const authActions = {
     signUp: (userInfo) => authService.signUp(userInfo),
@@ -71,7 +41,7 @@ function useAuth() {
     }
   }
 
-  return { userData, authActions, weather, setWeather };
+  return { userData, authActions };
 }
 
 function RequireAuth({ children }) {
@@ -84,4 +54,4 @@ function RequireAuth({ children }) {
   return children ? children : <Outlet />;
 }
 
-export { AuthProvider, UserContext, RequireAuth, useAuth };
+export { AuthProvider, RequireAuth, useAuth };

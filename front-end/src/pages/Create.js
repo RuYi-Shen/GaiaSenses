@@ -2,7 +2,6 @@ import { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 
 import Navbar from "../components/Navbar";
-import { useAuth } from "../contexts/UserContext";
 import ConfigBar from "../components/ConfigBar.js";
 import WeatherBar from "../components/WeatherBar.js";
 
@@ -10,9 +9,10 @@ import ChaosTree from "../compositions/ChaosTree.js";
 import Lluvia from "../compositions/Lluvia.js";
 import Tree from "../compositions/Tree.js";
 import postService from "../services/post";
+import useWeather from "../hooks/weather";
 
 function Create() {
-  const { weather } = useAuth();
+  const { weather } = useWeather();
   const [treeColor, setTreeColor] = useState("#FFFFFF");
   const [width, setWidth] = useState(window.screen.availWidth);
   const [height, setHeight] = useState(window.screen.availHeight - 150);
