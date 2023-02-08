@@ -11,7 +11,7 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-describe("create and publish posts test suite", () => {
+describe("create, publish and delete posts test suite", () => {
   it("given valid post informatiosn should create a new post", async () => {
     const postContent = {
       userId: +faker.random.numeric(),
@@ -70,6 +70,52 @@ describe("create and publish posts test suite", () => {
     expect(promise).rejects.toThrowError("You can't publish this post");
     expect(postRepository.findById).toBeCalled();
     expect(postRepository.publish).not.toBeCalled();
+  });
+  it("given valid userId and postId should delete post", async () => {
+    const deleteContent = {
+      userId: +faker.random.numeric(),
+      postId: +faker.random.numeric(),
+    };
+    const post = {
+      id: deleteContent.postId,
+      userId: deleteContent.userId,
+      content: faker.lorem.paragraph(),
+      url: faker.internet.url(),
+      published: true,
+      createdAt: faker.date.recent(),
+    };
+
+    jest.spyOn(postRepository, "deleteById").mockResolvedValueOnce(null);
+    jest.spyOn(postRepository, "findById").mockResolvedValueOnce(post);
+
+    await postService.deletePost(deleteContent.postId, deleteContent.userId);
+    expect(postRepository.findById).toBeCalled();
+    expect(postRepository.deleteById).toBeCalledWith(post.id);
+  });
+  it("given invalid userId for postId should throw error", async () => {
+    const deleteContent = {
+      userId: +faker.random.numeric(),
+      postId: +faker.random.numeric(),
+    };
+    const post = {
+      id: deleteContent.postId,
+      userId: deleteContent.userId + 1,
+      content: faker.lorem.paragraph(),
+      url: faker.internet.url(),
+      published: true,
+      createdAt: faker.date.recent(),
+    };
+
+    jest.spyOn(postRepository, "deleteById").mockResolvedValueOnce(null);
+    jest.spyOn(postRepository, "findById").mockResolvedValueOnce(post);
+
+    const promise = postService.deletePost(
+      deleteContent.postId,
+      deleteContent.userId
+    );
+    expect(promise).rejects.toThrowError("You can't delete this post");
+    expect(postRepository.findById).toBeCalled();
+    expect(postRepository.deleteById).not.toBeCalled();
   });
 });
 
