@@ -49,6 +49,12 @@ function Masonry({posts, userPosts}) {
     config: { mass: 5, tension: 500, friction: 100 },
     trail: 25,
   });
+
+  const removePost = (id) => {
+    const newItems = items.filter((item) => item.id !== id);
+    set(newItems);
+  }
+
   // Render the grid
   return (
     <div
@@ -61,6 +67,7 @@ function Masonry({posts, userPosts}) {
           <Image
             post={item}
             userPosts={userPosts}
+            removePost={removePost}
           />
         </a.div>
       ))}

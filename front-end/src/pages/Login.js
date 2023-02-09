@@ -32,9 +32,10 @@ export default function Login() {
           console.error(err);
           alert(err.response.data);
           setDisabled(false);
+          setUserInfo({});
         });
     }
-  }, [authActions, userInfo]);
+  }, [userInfo]);
 
   useEffect(() => {
     if (weather.weather && userData.name) {

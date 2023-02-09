@@ -4,8 +4,9 @@ import styles from "../css/styles.module.css";
 import Publish from "./Publish";
 import Like from "./Like";
 import User from "./User";
+import Delete from "./Delete";
 
-function Image({ post, userPosts }) {
+function Image({ post, userPosts, removePost }) {
   const [flipped, set] = useState(false);
   const { transform, opacity } = useSpring({
     opacity: flipped ? 1 : 0,
@@ -17,7 +18,10 @@ function Image({ post, userPosts }) {
     <div className={styles.container} onClick={() => set(!flipped)}>
       <Like postId={post.id} likes={post.likes} user={post.user}></Like>
       {userPosts ? (
-        <Publish postId={post.id} published={post.published}></Publish>
+        <>
+          <Publish postId={post.id} published={post.published}></Publish>
+          <Delete postId={post.id} removePost={removePost} />
+        </>
       ) : (
         <></>
       )}
