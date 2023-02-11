@@ -7,10 +7,12 @@ const ELLIPSE_SIZE_MAX = 250;
 const FPS_MIN = 0.5
 const FPS_MAX = 20
 
-const CRITICAL_RAIN_MM = 20;
+const CRITICAL_RAIN_MM = 30;
 
 function normalize(x, min = 0, max = 1) {
-  return (max - min) / (1 + Math.exp(-0.2 * (x - CRITICAL_RAIN_MM))) + min
+  x = Math.min(x, CRITICAL_RAIN_MM);
+  x = Math.max(x, 0);
+  return ((max - min) / CRITICAL_RAIN_MM) * x + min;
 }
 
 export default function Lluvia(props) {
@@ -18,8 +20,8 @@ export default function Lluvia(props) {
   let height = props.height || window.screen.availHeight;
   let rain = props.rain ? props.rain['1h'] : 0;
 
-  let ellipseSize = normalize(rain, ELLIPSE_SIZE_MIN, ELLIPSE_SIZE_MAX)
-  let fps = normalize(rain, FPS_MIN, FPS_MAX)
+  let ellipseSize = normalize(rain, ELLIPSE_SIZE_MIN, ELLIPSE_SIZE_MAX);
+  let fps = normalize(rain, FPS_MIN, FPS_MAX);
 
   const setup = (p5, parent) => {
     p5.createCanvas(width, height).parent(parent)
