@@ -1,13 +1,15 @@
+// inspired by: https://openprocessing.org/sketch/386391
+
 import React from 'react'
 import Sketch from "react-p5";
 
 const ELLIPSE_SIZE_MIN = 15;
 const ELLIPSE_SIZE_MAX = 250;
 
-const FPS_MIN = 0.5
-const FPS_MAX = 20
+const FPS_MIN = 2;
+const FPS_MAX = 20;
 
-const CRITICAL_RAIN_MM = 30;
+const CRITICAL_RAIN_MM = 10;
 
 function normalize(x, min = 0, max = 1) {
   x = Math.min(x, CRITICAL_RAIN_MM);
@@ -15,16 +17,16 @@ function normalize(x, min = 0, max = 1) {
   return ((max - min) / CRITICAL_RAIN_MM) * x + min;
 }
 
-export default function Lluvia(props) {
-  let width = props.width || window.screen.availWidth;
-  let height = props.height || window.screen.availHeight;
-  let rain = props.rain ? props.rain['1h'] : 0;
+export default function Lluvia({ width, height, rain }) {
+  let canvasWidth = width || window.screen.availWidth;
+  let canvasHeight = height || window.screen.availHeight;
+  let rainMili = rain['1h'] || 0;
 
-  let ellipseSize = normalize(rain, ELLIPSE_SIZE_MIN, ELLIPSE_SIZE_MAX);
-  let fps = normalize(rain, FPS_MIN, FPS_MAX);
+  let ellipseSize = normalize(rainMili, ELLIPSE_SIZE_MIN, ELLIPSE_SIZE_MAX);
+  let fps = normalize(rainMili, FPS_MIN, FPS_MAX);
 
   const setup = (p5, parent) => {
-    p5.createCanvas(width, height).parent(parent)
+    p5.createCanvas(canvasWidth, canvasHeight).parent(parent)
     p5.frameRate(fps)
     p5.background(0);
   }

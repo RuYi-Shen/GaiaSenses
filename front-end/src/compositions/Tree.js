@@ -1,3 +1,5 @@
+// inspired by: https://openprocessing.org/sketch/1780681
+
 import React from "react"
 import Sketch from "react-p5";
 
