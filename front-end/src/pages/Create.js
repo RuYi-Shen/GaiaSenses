@@ -78,7 +78,7 @@ function Create() {
           rain={weather.rain}
           temp={weather.main.temp} />;
       },
-      "vectorial-lluvia": () => {
+      "zig-zag": () => {
         return <ZigZag width={width}
           height={height}
           rain={weather.rain}
@@ -149,7 +149,7 @@ function Create() {
             <option value="lluvia">Lluvia</option>
             <option value="rainy-rects">Rectangles</option>
             <option value="curves">Curves</option>
-            <option value="vectorial-lluvia">Vectorial Lluvia</option>
+            <option value="zig-zag">Zig Zag</option>
           </select>
           {artType === "chaos" &&
             <>
