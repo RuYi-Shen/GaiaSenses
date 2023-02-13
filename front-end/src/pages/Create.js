@@ -9,10 +9,15 @@ import ChaosTree from "../compositions/ChaosTree.js";
 import Lluvia from "../compositions/Lluvia.js";
 import Tree from "../compositions/Tree.js";
 import postService from "../services/post";
-import useWeather from "../hooks/weather";
+import { useLightning, useWeather } from "../hooks/weather";
+import RainyRects from "../compositions/RainyRects";
+import Curves from "../compositions/Curves";
+import ZigZag from "../compositions/ZigZag";
 
 function Create() {
   const { weather } = useWeather();
+  const { lightning } = useLightning();
+
   const [treeColor, setTreeColor] = useState("#FFFFFF");
   const [width, setWidth] = useState(window.screen.availWidth);
   const [height, setHeight] = useState(window.screen.availHeight - 150);
@@ -43,26 +48,46 @@ function Create() {
   }, [weather]);
 
   const Compose = useCallback(() => {
-    if (artType === "chaos") {
-      return (
-        <ChaosTree
-          width={width}
+    const compositions = {
+      "chaos": () => {
+        return <ChaosTree width={width}
           height={height}
-          imageUrl={imageUrl || "chaostree.jpg"}
-        />
-      );
-    } else if (artType === "weather-tree") {
-      return (
-        <>
-          <Tree color={treeColor || "#FFFFFF"} width={width} height={height} />;
-          <WeatherBar color={setTreeColor} />
-        </>
-      );
-    }
-    else {
-      return <Lluvia width={width} height={height} rain={weather.rain}/>
-    }
-  }, [artType, treeColor, width, height, imageUrl, weather]);
+          imageUrl={imageUrl || "chaostree.jpg"} />
+      },
+      "weather-tree": () => {
+        return (
+          <>
+            <Tree color={treeColor || "#FFFFFF"} width={width} height={height} />;
+            <WeatherBar color={setTreeColor} />
+          </>
+        );
+      },
+      "lluvia": () => {
+        return <Lluvia width={width}
+          height={height}
+          rain={weather.rain} />;
+      },
+      "rainy-rects": () => {
+        return <RainyRects width={width}
+          height={height}
+          rain={weather.rain} />;
+      },
+      "curves": () => {
+        return <Curves width={width}
+          height={height}
+          rain={weather.rain}
+          temp={weather.main.temp} />;
+      },
+      "vectorial-lluvia": () => {
+        return <ZigZag width={width}
+          height={height}
+          rain={weather.rain}
+          lightning={lightning.count} />;
+      }
+    };
+
+    return compositions[artType] ? compositions[artType]() : <></>;
+  }, [artType, treeColor, width, height, imageUrl, weather, lightning.count]);
 
   const weatherColor = {
     "clear sky": "#FF0000",
@@ -122,8 +147,11 @@ function Create() {
             <option value="chaos">Chaos</option>
             <option value="weather-tree">Weather-Tree</option>
             <option value="lluvia">Lluvia</option>
+            <option value="rainy-rects">Rectangles</option>
+            <option value="curves">Curves</option>
+            <option value="vectorial-lluvia">Vectorial Lluvia</option>
           </select>
-          { artType === "chaos" &&
+          {artType === "chaos" &&
             <>
               <p>Upload an image file or use the default:</p>
               <input

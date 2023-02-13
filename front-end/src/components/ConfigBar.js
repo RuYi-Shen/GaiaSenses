@@ -4,7 +4,7 @@ import styled from "styled-components";
 import WeatherData from "./WeatherData";
 import ShareOptions from "./ShareOptions.js";
 import useAuth from "../hooks/auth";
-import useWeather from "../hooks/weather";
+import { useWeather } from "../hooks/weather";
 
 function ConfigBar() {
   const { userData, authActions } = useAuth()

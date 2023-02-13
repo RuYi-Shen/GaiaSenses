@@ -1,7 +1,11 @@
 import axios from 'axios';
 
-const client = axios.create({
-    baseURL: "https://gaiasenses-production.up.railway.app"
+const appClient = axios.create({
+  baseURL: "https://gaiasenses-production.up.railway.app"
 });
 
-export default client;
+const weatherClient = axios.create({
+  baseURL: "https://satellite-fetcher.up.railway.app"
+})
+
+export { appClient, weatherClient };

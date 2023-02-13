@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Form from "../components/Form";
 
 import logo from "../assets/gs_logo.png";
-import useWeather from "../hooks/weather";
+import { useWeather } from "../hooks/weather";
 
 export default function Login() {
   const { userData, authActions } = useAuth();

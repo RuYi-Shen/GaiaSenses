@@ -1,30 +1,51 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import weatherService from "../services/weather";
 
-const APIURL = "https://api.openweathermap.org/data/2.5/weather?";
-const APIKEY = "10428b1c951b8f8f17e6acde5957b88f";
+const cache = {};
 
-function getLocalWeather() {
+function getPosition() {
   return new Promise((resolve, reject) => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
 
-        axios.get(`${APIURL}lat=${lat}&lon=${lon}&appid=${APIKEY}`)
-          .then((response) => resolve(response.data))
-          .catch((err) => reject(err));
+        resolve({ lat, lon });
       }, (err) => reject(err));
     }
     else {
       reject('Geolocation API not supported');
     }
-  });
+  })
 }
 
-const cache = {};
+function useLightning() {
+  const [lightning, setLightning] = useState({});
 
-export default function useWeather() {
+  useEffect(() => {
+    if (cache['lightning']) {
+      setLightning(cache['lightning']);
+    }
+    else {
+      getPosition()
+        .then(({ lat, lon}) => weatherService.getLightningFlashes(lat, lon))
+        .then((res) => {
+          cache['lightning'] = res.data;
+          setLightning(res.data);
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [lightning]);
+
+  const refreshLightning = () => {
+    cache['lightning'] = null;
+    setLightning({});
+  }
+
+  return { lightning, refreshLightning };
+}
+
+function useWeather() {
   const [weather, setWeather] = useState({});
 
   useEffect(() => {
@@ -32,10 +53,11 @@ export default function useWeather() {
       setWeather(cache['weather']);
     }
     else {
-      getLocalWeather()
+      getPosition()
+        .then(({ lat, lon }) => weatherService.getRainfall(lat, lon))
         .then((res) => {
-          cache['weather'] = res;
-          setWeather(res);
+          cache['weather'] = res.data;
+          setWeather(res.data);
         })
         .catch((err) => console.error(err));
     }
@@ -48,3 +70,5 @@ export default function useWeather() {
 
   return { weather, refreshWeather };
 }
+
+export { useWeather, useLightning };

@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 function WeatherData({ weather }) {
   const ICONURL = "http://openweathermap.org/img/wn/";
-  const KELVINCELSIUS = 273.15;
 
   return (
     <Weather>
@@ -16,7 +15,7 @@ function WeatherData({ weather }) {
         <p>
           <ion-icon name="thermometer-outline"></ion-icon> Temperature:
         </p>
-        <p>{(weather.main.temp - KELVINCELSIUS).toFixed(2)} ºC</p>
+        <p>{weather.main.temp.toFixed(2)} ºC</p>
       </div>
       <div className="info">
         <p>

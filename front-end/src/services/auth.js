@@ -1,12 +1,12 @@
-import client from "./lib/client";
+import { appClient } from "./lib/client";
 
 const authService = {
   signUp: async (signUpData) => {
-    const res = await client.post("/auth/signup", signUpData);
+    const res = await appClient.post("/auth/signup", signUpData);
     return res.data;
   },
   signIn: async (signInData) => {
-    const res = await client.post("/auth/signin", signInData);
+    const res = await appClient.post("/auth/signin", signInData);
     localStorage.setItem("userData", JSON.stringify(res.data));
     return res.data;
   },
@@ -16,7 +16,7 @@ const authService = {
     return data ? JSON.parse(data) : null;
   },
   setAuthorization: (token) => {
-    client.defaults.headers.common['Authorization'] = token;
+    appClient.defaults.headers.common['Authorization'] = token;
   }
 }
 
