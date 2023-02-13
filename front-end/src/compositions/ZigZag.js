@@ -1,12 +1,12 @@
 // inspired by: https://openprocessing.org/sketch/1643288
 
-import React from 'react'
+import React from 'react';
 import Sketch from "react-p5";
 
 const FPS_MIN = 15;
 const FPS_MAX = 60;
 
-const AGENTS_MIN = 6;
+const AGENTS_MIN = 10;
 const AGENTS_MAX = 200;
 
 const CRITICAL_RAIN_MM = 10;
@@ -104,7 +104,7 @@ export default function ZigZag({ width, height, rain, lightning }) {
   }
 
   const setup = (p5, parent) => {
-    p5.createCanvas(canvasWidth, canvasHeight).parent(parent)
+    p5.createCanvas(canvasWidth, canvasHeight).parent(parent);
     p5.colorMode(p5.HSB, 360, 100, 100);
     p5.rectMode(p5.CENTER);
     p5.strokeCap(p5.SQUARE);
